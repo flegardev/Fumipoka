@@ -1,0 +1,21 @@
+{
+  "command": [
+    "<workspace>\\returnmark (1)\\gradlew.bat",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console",
+    "plain",
+    "--max-workers=1",
+    "-I",
+    "<workspace>\\kissaten\\tools\\qa.init.gradle",
+    ":app:assembleDebug",
+    ":app:testDebugUnitTest",
+    ":app:lintDebug",
+    ":app:bundleRelease",
+    "-PkissatenUnsignedRelease=true"
+  ],
+  "exitCode": 0,
+  "seconds": 353.4,
+  "log": "<workspace>\\kissaten\\evidence\\returnmark\\cloud-cleanup-final.log",
+  "sourceFingerprint": "e33c45994186f6f189005f4b638f2e74e9c3da5763ab501bc80986ed73aaa300"
+}

@@ -1,0 +1,488 @@
+[
+  {
+    "id": "DefaultLocale",
+    "severity": "Warning",
+    "message": "Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\java\\com\\example\\ui\\SecondaryStudioScreens.kt"
+  },
+  {
+    "id": "OldTargetApi",
+    "severity": "Warning",
+    "message": "Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the `android.os.Build.VERSION_CODES` javadoc for details.",
+    "file": "<workspace>\\returnmark (1)\\app\\build.gradle.kts"
+  },
+  {
+    "id": "UnusedAttribute",
+    "severity": "Warning",
+    "message": "Attribute `previewLayout` is only used in API level 31 and higher (current min is 24)",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\xml\\returnmark_widget_info.xml"
+  },
+  {
+    "id": "UnusedAttribute",
+    "severity": "Warning",
+    "message": "Attribute `targetCellWidth` is only used in API level 31 and higher (current min is 24)",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\xml\\returnmark_widget_info.xml"
+  },
+  {
+    "id": "UnusedAttribute",
+    "severity": "Warning",
+    "message": "Attribute `targetCellHeight` is only used in API level 31 and higher (current min is 24)",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\xml\\returnmark_widget_info.xml"
+  },
+  {
+    "id": "RedundantLabel",
+    "severity": "Warning",
+    "message": "Redundant label can be removed",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\AndroidManifest.xml"
+  },
+  {
+    "id": "AndroidGradlePluginVersion",
+    "severity": "Warning",
+    "message": "A newer version of Gradle than 9.3.1 is available: 9.9.1",
+    "file": "<workspace>\\returnmark (1)\\gradle\\wrapper\\gradle-wrapper.properties"
+  },
+  {
+    "id": "AndroidGradlePluginVersion",
+    "severity": "Warning",
+    "message": "A newer version of com.android.application than 9.1.1 is available: 9.5.1",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.core:core-ktx than 1.18.0 is available: 1.19.1",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.lifecycle:lifecycle-runtime-ktx than 2.8.7 is available: 2.11.0",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.lifecycle:lifecycle-viewmodel-compose than 2.8.7 is available: 2.11.0",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.lifecycle:lifecycle-runtime-compose than 2.8.7 is available: 2.11.0",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.activity:activity-compose than 1.10.1 is available: 1.13.0",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.compose:compose-bom than 2024.09.00 is available: 2026.09.00",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of com.google.devtools.ksp than 2.3.5 is available: 2.3.13",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.navigation:navigation-compose than 2.8.9 is available: 2.10.2",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.room:room-runtime than 2.7.0 is available: 2.8.5",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.room:room-ktx than 2.7.0 is available: 2.8.5",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.room:room-compiler than 2.7.0 is available: 2.8.5",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.test:core than 1.6.1 is available: 1.7.0",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.test:runner than 1.6.2 is available: 1.7.0",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of com.google.android.gms:play-services-location than 21.3.0 is available: 21.4.0",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.camera:camera-camera2 than 1.5.0 is available: 1.6.2",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.camera:camera-lifecycle than 1.5.0 is available: 1.6.2",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.camera:camera-view than 1.5.0 is available: 1.6.2",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.camera:camera-core than 1.5.0 is available: 1.6.2",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "GradleDependency",
+    "severity": "Warning",
+    "message": "A newer version of androidx.datastore:datastore-preferences than 1.1.7 is available: 1.3.0",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "NewerVersionAvailable",
+    "severity": "Warning",
+    "message": "A newer version of org.jetbrains.kotlin.plugin.compose than 2.2.10 is available: 2.4.21",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "NewerVersionAvailable",
+    "severity": "Warning",
+    "message": "A newer version of org.jetbrains.kotlinx:kotlinx-coroutines-test than 1.10.2 is available: 1.11.0",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "NewerVersionAvailable",
+    "severity": "Warning",
+    "message": "A newer version of com.squareup.retrofit2:retrofit than 2.12.0 is available: 3.0.0",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "NewerVersionAvailable",
+    "severity": "Warning",
+    "message": "A newer version of com.squareup.retrofit2:converter-moshi than 2.12.0 is available: 3.0.0",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "NewerVersionAvailable",
+    "severity": "Warning",
+    "message": "A newer version of org.jetbrains.kotlinx:kotlinx-coroutines-android than 1.10.2 is available: 1.11.0",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "NewerVersionAvailable",
+    "severity": "Warning",
+    "message": "A newer version of org.jetbrains.kotlinx:kotlinx-coroutines-core than 1.10.2 is available: 1.11.0",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "NewerVersionAvailable",
+    "severity": "Warning",
+    "message": "A newer version of com.squareup.okhttp3:logging-interceptor than 4.10.0 is available: 5.5.1",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "NewerVersionAvailable",
+    "severity": "Warning",
+    "message": "A newer version of com.squareup.okhttp3:okhttp than 4.10.0 is available: 5.5.1",
+    "file": "<workspace>\\returnmark (1)\\gradle\\libs.versions.toml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.color.purple_200` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\colors.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.color.purple_500` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\colors.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.color.purple_700` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\colors.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.color.teal_200` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\colors.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.color.teal_700` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\colors.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.color.black` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\colors.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.color.white` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\colors.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.save_my_progress` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.continue_working` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.rescue_mode` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.command_palette` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.widget_continue_project_desc` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.widget_current_mission_desc` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.widget_quick_save_point_desc` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.widget_active_projects_desc` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.widget_focus_timer_desc` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.widget_project_progress_desc` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.widget_next_mission_desc` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.widget_pinned_project_desc` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.widget_recent_checkpoints_desc` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UnusedResources",
+    "severity": "Warning",
+    "message": "The resource `R.string.widget_quick_capture_desc` appears to be unused",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\values\\strings.xml"
+  },
+  {
+    "id": "UselessLeaf",
+    "severity": "Warning",
+    "message": "This `LinearLayout` view is unnecessary (no children, no `background`, no `id`, no `style`)",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\layout\\returnmark_app_widget.xml"
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icons should not fill every pixel of their square region; see the design guide for details",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icons should not fill every pixel of their square region; see the design guide for details",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icons should not fill every pixel of their square region; see the design guide for details",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icons should not fill every pixel of their square region; see the design guide for details",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icons should not fill every pixel of their square region; see the design guide for details",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.png"
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.png"
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.png"
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.png"
+  },
+  {
+    "id": "IconLauncherShape",
+    "severity": "Warning",
+    "message": "Launcher icon used as round icon did not have a circular shape",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.png"
+  },
+  {
+    "id": "IconDuplicates",
+    "severity": "Warning",
+    "message": "The following unrelated icon files have identical contents: ic_launcher.png, ic_launcher_round.png",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.png"
+  },
+  {
+    "id": "IconDuplicates",
+    "severity": "Warning",
+    "message": "The following unrelated icon files have identical contents: ic_launcher.png, ic_launcher_round.png",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.png"
+  },
+  {
+    "id": "IconDuplicates",
+    "severity": "Warning",
+    "message": "The following unrelated icon files have identical contents: ic_launcher.png, ic_launcher_round.png",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.png"
+  },
+  {
+    "id": "IconDuplicates",
+    "severity": "Warning",
+    "message": "The following unrelated icon files have identical contents: ic_launcher.png, ic_launcher_round.png",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.png"
+  },
+  {
+    "id": "IconDuplicates",
+    "severity": "Warning",
+    "message": "The following unrelated icon files have identical contents: ic_launcher.png, ic_launcher_round.png",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.png"
+  },
+  {
+    "id": "SmallSp",
+    "severity": "Warning",
+    "message": "Avoid using sizes smaller than `11sp`: `10sp`",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\layout\\returnmark_app_widget.xml"
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `SharedPreferences.edit` instead?",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\java\\com\\example\\data\\FocusRecoveryStore.kt"
+  },
+  {
+    "id": "UseKtx",
+    "severity": "Warning",
+    "message": "Use the KTX extension function `String.toColorInt` instead?",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\java\\com\\example\\ui\\theme\\Kissaten.kt"
+  },
+  {
+    "id": "HardcodedText",
+    "severity": "Warning",
+    "message": "Hardcoded string \"FUMIPOKA\", should use `@string` resource",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\layout\\returnmark_app_widget.xml"
+  },
+  {
+    "id": "HardcodedText",
+    "severity": "Warning",
+    "message": "Hardcoded string \"Never lose your place\", should use `@string` resource",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\layout\\returnmark_app_widget.xml"
+  },
+  {
+    "id": "HardcodedText",
+    "severity": "Warning",
+    "message": "Hardcoded string \"Tap to resume from your latest Save Point.\", should use `@string` resource",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\layout\\returnmark_app_widget.xml"
+  },
+  {
+    "id": "HardcodedText",
+    "severity": "Warning",
+    "message": "Hardcoded string \"Offline and ready\", should use `@string` resource",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\layout\\returnmark_app_widget.xml"
+  },
+  {
+    "id": "HardcodedText",
+    "severity": "Warning",
+    "message": "Hardcoded string \"+ SAVE\", should use `@string` resource",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\layout\\returnmark_app_widget.xml"
+  },
+  {
+    "id": "HardcodedText",
+    "severity": "Warning",
+    "message": "Hardcoded string \"RESUME\", should use `@string` resource",
+    "file": "<workspace>\\returnmark (1)\\app\\src\\main\\res\\layout\\returnmark_app_widget.xml"
+  }
+]

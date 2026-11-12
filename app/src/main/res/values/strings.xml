@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Fumipoka</string>
+    <string name="tagline">Never lose your place. Never lose your progress.</string>
+    <string name="save_my_progress">SAVE MY PROGRESS</string>
+    <string name="continue_working">Continue Working</string>
+    <string name="rescue_mode">Rescue Mode</string>
+    <string name="command_palette">Command Palette</string>
+    <string name="widget_continue_project_desc">Resume your active project from its latest Save Point</string>
+    <string name="widget_current_mission_desc">View and complete your current active mission</string>
+    <string name="widget_quick_save_point_desc">Capture a Save Point with one tap from your home screen</string>
+    <string name="widget_active_projects_desc">Overview of active projects and progress</string>
+    <string name="widget_focus_timer_desc">Monitor or launch a Fumipoka Focus Studio session</string>
+    <string name="widget_project_progress_desc">Track milestone and mission completion percentage</string>
+    <string name="widget_next_mission_desc">See the next actionable mission in your queue</string>
+    <string name="widget_pinned_project_desc">Quick access to your primary pinned project</string>
+    <string name="widget_recent_checkpoints_desc">Timeline of your latest saved checkpoints</string>
+    <string name="widget_quick_capture_desc">Rapidly capture an idea, mission, or reference</string>
+</resources>

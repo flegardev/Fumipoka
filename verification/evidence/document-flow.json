@@ -1,0 +1,60 @@
+{
+  "passed": true,
+  "serial": "emulator-5554",
+  "bytes": 12454,
+  "jsonKeys": [
+    "app",
+    "schemaVersion",
+    "exportedAt",
+    "encryption",
+    "projects",
+    "savePoints",
+    "missions",
+    "references",
+    "focusSessions",
+    "rescueSessions",
+    "preferences"
+  ],
+  "filename": "fumipoka-backup-1794426879028.json",
+  "configurationRecreationDuringPicker": true,
+  "roomRowsPreserved": true,
+  "before": {
+    "returnmark_v2.db": {
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "rows": {
+        "android_metadata": 1,
+        "projects": 3,
+        "save_points": 3,
+        "missions": 4,
+        "reference_items": 2,
+        "focus_sessions": 1,
+        "rescue_sessions": 1
+      },
+      "sha256": "92e3565368dcc92c6622cc037038aee29b6c9042d71e3f3e37f358f2f12ffcf4"
+    }
+  },
+  "after": {
+    "returnmark_v2.db": {
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "rows": {
+        "android_metadata": 1,
+        "projects": 3,
+        "save_points": 3,
+        "missions": 4,
+        "reference_items": 2,
+        "focus_sessions": 1,
+        "rescue_sessions": 1
+      },
+      "sha256": "92e3565368dcc92c6622cc037038aee29b6c9042d71e3f3e37f358f2f12ffcf4"
+    }
+  },
+  "note": "Real CreateDocument/OpenDocument, fixture-only restore. Export bytes retained privately; not a store asset."
+}

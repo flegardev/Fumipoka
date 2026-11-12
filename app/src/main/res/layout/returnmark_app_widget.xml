@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/widget_bg" android:contentDescription="@string/tagline"
+    android:orientation="vertical" android:padding="14dp">
+    <TextView android:id="@+id/widget_badge"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:ellipsize="end" android:maxLines="1" android:letterSpacing="0.06"
+        android:text="FUMIPOKA" android:textSize="10sp" android:textStyle="bold" />
+    <TextView android:id="@+id/widget_title"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="4dp" android:ellipsize="end" android:maxLines="1"
+        android:text="Never lose your place" android:textSize="15sp" android:textStyle="bold" />
+    <TextView android:id="@+id/widget_subtitle"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="4dp" android:ellipsize="end" android:maxLines="2"
+        android:text="Tap to resume from your latest Save Point." android:textSize="12sp" />
+    <TextView android:id="@+id/widget_footer"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="4dp" android:ellipsize="end" android:maxLines="1"
+        android:text="Offline and ready" android:textSize="11sp" />
+    <LinearLayout android:layout_width="1dp" android:layout_height="0dp" android:layout_weight="1" android:orientation="vertical" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+        android:layout_marginTop="4dp" android:orientation="horizontal" android:gravity="center_vertical">
+        <TextView android:id="@+id/widget_secondary_action"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+            android:layout_marginEnd="6dp" android:gravity="center" android:maxLines="1" android:ellipsize="end"
+            android:text="+ SAVE" android:textSize="11sp" android:textStyle="bold" />
+        <TextView android:id="@+id/widget_action_pill"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+            android:background="@drawable/widget_pill_bg" android:gravity="center"
+            android:maxLines="1" android:ellipsize="end" android:text="RESUME" android:textSize="11sp" android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

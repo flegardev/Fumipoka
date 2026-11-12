@@ -1,0 +1,57 @@
+{
+  "serial": "emulator-5554",
+  "passed": true,
+  "original": {
+    "returnmark_v2.db": {
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "rows": {
+        "android_metadata": 1,
+        "projects": 3,
+        "save_points": 3,
+        "missions": 4,
+        "reference_items": 2,
+        "focus_sessions": 1,
+        "rescue_sessions": 1
+      },
+      "sha256": "92e3565368dcc92c6622cc037038aee29b6c9042d71e3f3e37f358f2f12ffcf4"
+    }
+  },
+  "after": {
+    "returnmark_v2.db": {
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "rows": {
+        "android_metadata": 1,
+        "projects": 3,
+        "save_points": 3,
+        "missions": 4,
+        "reference_items": 2,
+        "focus_sessions": 1,
+        "rescue_sessions": 1
+      },
+      "sha256": "92e3565368dcc92c6622cc037038aee29b6c9042d71e3f3e37f358f2f12ffcf4"
+    }
+  },
+  "note": "Original compiled source APK and final debug APK use the existing workstation QA certificate. Install -r, no uninstall or data clearing. This verifies fixture-data compatibility, not the unavailable production signing identity.",
+  "originalApkSha256": "0671e44e667c7e81443013c460e2720a521fa0f0d5332f33119c945a7f49655d",
+  "finalApkSha256": "6a9c6e645787ed476d0150670486466f09bcc94be98469e198e2f7122bbffcfc",
+  "dataStoreBefore": {
+    "returnmark_preferences_v2.preferences_pb": {
+      "bytes": 543,
+      "sha256": "d1462af28a6765e4d70e544b0a4031365569ff20d02fcd6a3cac3b3681d7fa0a"
+    }
+  },
+  "dataStoreAfter": {
+    "returnmark_preferences_v2.preferences_pb": {
+      "bytes": 543,
+      "sha256": "d1462af28a6765e4d70e544b0a4031365569ff20d02fcd6a3cac3b3681d7fa0a"
+    }
+  }
+}

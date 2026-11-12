@@ -1,0 +1,100 @@
+[
+  {
+    "file": "play-store/screenshots/phone/01-light-home.png",
+    "source": "kissaten/evidence/returnmark/screenshots/matrix-standard/light-home.png",
+    "sourceCapturedAt": "2026-11-11T20:57:58.958519+01:00",
+    "sourceSha256": "8c0d69cc6457c00bd01fd8e4e30328d1ca4b1a181f3be8b134197defa709d7a2",
+    "sha256": "9be9498e3942a800611b30a42dc36e806bca83db86550945a046619d220caf36",
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "pixelMatchAfterRgbConversion": true,
+    "description": "Fumipoka light home"
+  },
+  {
+    "file": "play-store/screenshots/phone/02-projects.png",
+    "source": "kissaten/evidence/returnmark/screenshots/matrix-standard/projects.png",
+    "sourceCapturedAt": "2026-11-11T20:59:02.437893+01:00",
+    "sourceSha256": "66475ad91731ec4cfa23c228a86068b6d7957e3f8927ad42352b0983fa083c52",
+    "sha256": "177a6c1fad314974afbec5b7c704bd5d0ca8fe96f0f8905892896a42842eda35",
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "pixelMatchAfterRgbConversion": true,
+    "description": "Fumipoka projects"
+  },
+  {
+    "file": "play-store/screenshots/phone/03-save-points.png",
+    "source": "kissaten/evidence/returnmark/screenshots/matrix-standard/save-points.png",
+    "sourceCapturedAt": "2026-11-11T20:59:08.904184+01:00",
+    "sourceSha256": "d2a8ed7cdfc0e9bcea809c06b8faa41f8f1df329af2650eb2b32727288e5fcc6",
+    "sha256": "6af3d0b79ec5621ebe02d947979041bdfe09347a397a16548d3577ae4398cea5",
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "pixelMatchAfterRgbConversion": true,
+    "description": "Fumipoka save points"
+  },
+  {
+    "file": "play-store/screenshots/phone/04-focus.png",
+    "source": "kissaten/evidence/returnmark/screenshots/matrix-standard/focus.png",
+    "sourceCapturedAt": "2026-11-11T20:59:15.646232+01:00",
+    "sourceSha256": "5216974d869bc78516a6998dde85483297eeadc3bbdd1b3cf7516b9372a2bb35",
+    "sha256": "de2fddedcb816f685af985d52ed534af6237c307434ab2d9110e56d857ecdd4c",
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "pixelMatchAfterRgbConversion": true,
+    "description": "Fumipoka focus"
+  },
+  {
+    "file": "play-store/screenshots/phone/05-library.png",
+    "source": "kissaten/evidence/returnmark/screenshots/matrix-standard/library.png",
+    "sourceCapturedAt": "2026-11-11T20:59:22.382174+01:00",
+    "sourceSha256": "3a1d3e6214c51e74bb7e019547389934f9aa84817e2513d2cbbe862f0c2cb282",
+    "sha256": "855f3393f2c12db9e7ffe73d7653368d3dc823b20c1132d125b75b3ec751b4d3",
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "pixelMatchAfterRgbConversion": true,
+    "description": "Fumipoka library"
+  },
+  {
+    "file": "play-store/screenshots/phone/06-dark-home.png",
+    "source": "kissaten/evidence/returnmark/screenshots/matrix-standard/dark-home.png",
+    "sourceCapturedAt": "2026-11-11T20:58:18.837953+01:00",
+    "sourceSha256": "765e94c26b2f9517f595f472b59e69381c05b8559534b3806a78e789e01fbc72",
+    "sha256": "ebb73c559a9bef74c408aeca97d7731f79da094f54def0d471f78ab196ce019d",
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "pixelMatchAfterRgbConversion": true,
+    "description": "Fumipoka dark home"
+  },
+  {
+    "file": "play-store/screenshots/phone/07-oled-home.png",
+    "source": "kissaten/evidence/returnmark/screenshots/matrix-standard/oled-home.png",
+    "sourceCapturedAt": "2026-11-11T20:58:38.162803+01:00",
+    "sourceSha256": "6705922c35401a013271461544b5a49d583e9fc4fd2681a5c84bb98c4da05cdf",
+    "sha256": "bba8b62e4ac250270a9fc267e7d75df2c8a3f5f3392889aee58ed19db8538fab",
+    "size": [
+      1080,
+      1920
+    ],
+    "mode": "RGB",
+    "pixelMatchAfterRgbConversion": true,
+    "description": "Fumipoka oled home"
+  }
+]

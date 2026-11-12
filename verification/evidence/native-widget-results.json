@@ -1,0 +1,142 @@
+[
+  {
+    "provider": "ContinueProjectWidgetReceiver",
+    "width": 280,
+    "height": 240,
+    "texts": [
+      "CONTINUE PROJECT",
+      "Solaris Offline Mesh Engine",
+      "Stopped: Validating CRC32 frame chunking in PacketAssembler.kt at line 142.",
+      "Next \u2192 Wire boundary timeout retry into MeshChannelLoop and run 64KB payload test.",
+      "+ SAVE",
+      "RESUME"
+    ],
+    "fontScale": "1"
+  },
+  {
+    "provider": "CurrentMissionWidgetReceiver",
+    "width": 280,
+    "height": 240,
+    "texts": [
+      "CURRENT MISSION",
+      "Wire boundary timeout retry into MeshChannelLoop",
+      "Project: Solaris Offline Mesh Engine",
+      "1/4 missions completed",
+      "FOCUS",
+      "MISSIONS"
+    ],
+    "fontScale": "1"
+  },
+  {
+    "provider": "QuickSavePointWidgetReceiver",
+    "width": 280,
+    "height": 240,
+    "texts": [
+      "QUICK SAVE POINT",
+      "Save My Progress",
+      "Capture exact working context for Solaris Offline Mesh Engine",
+      "Latest: Mid-debugging BLE 180B Fragmentation",
+      "TIMELINE",
+      "+ SAVE"
+    ],
+    "fontScale": "1"
+  },
+  {
+    "provider": "ActiveProjectsWidgetReceiver",
+    "width": 280,
+    "height": 240,
+    "texts": [
+      "ACTIVE PROJECTS",
+      "2 Active Workspaces",
+      "Primary: Solaris Offline Mesh Engine",
+      "Next: Wire boundary timeout retry into MeshChannelLoop and run 64KB payload test.",
+      "RESCUE",
+      "VIEW"
+    ],
+    "fontScale": "1"
+  },
+  {
+    "provider": "FocusTimerWidgetReceiver",
+    "width": 280,
+    "height": 240,
+    "texts": [
+      "FOCUS STUDIO",
+      "Pomodoro & Deep Work",
+      "Linked to: Wire boundary timeout retry into MeshChannelLoop",
+      "45 total focused minutes logged",
+      "+ SAVE",
+      "START"
+    ],
+    "fontScale": "1"
+  },
+  {
+    "provider": "ProjectProgressWidgetReceiver",
+    "width": 280,
+    "height": 240,
+    "texts": [
+      "PROJECT PROGRESS",
+      "25% Mission Completion",
+      "Solaris Offline Mesh Engine",
+      "1 of 4 missions done",
+      "RESUME",
+      "STATS"
+    ],
+    "fontScale": "1"
+  },
+  {
+    "provider": "NextMissionWidgetReceiver",
+    "width": 280,
+    "height": 240,
+    "texts": [
+      "NEXT ACTIONABLE",
+      "Benchmark 1,000-node topology simulation",
+      "Up next in Solaris Offline Mesh Engine",
+      "Ready to launch with zero blockers",
+      "FOCUS",
+      "START"
+    ],
+    "fontScale": "1"
+  },
+  {
+    "provider": "PinnedProjectWidgetReceiver",
+    "width": 280,
+    "height": 240,
+    "texts": [
+      "PINNED WORKSPACE",
+      "Solaris Offline Mesh Engine",
+      "Validating CRC32 frame chunking in PacketAssembler.kt at line 142.",
+      "Next \u2192 Wire boundary timeout retry into MeshChannelLoop and run 64KB payload test.",
+      "+ SAVE",
+      "OPEN"
+    ],
+    "fontScale": "1"
+  },
+  {
+    "provider": "RecentCheckpointsWidgetReceiver",
+    "width": 280,
+    "height": 240,
+    "texts": [
+      "RECENT CHECKPOINT",
+      "Mid-debugging BLE 180B Fragmentation",
+      "Validating CRC32 frame chunking in PacketAssembler.kt at line 142.",
+      "Next \u2192 Wire boundary timeout retry into MeshChannelLoop and run 64KB payload test.",
+      "+ SAVE",
+      "TIMELINE"
+    ],
+    "fontScale": "1"
+  },
+  {
+    "provider": "QuickCaptureWidgetReceiver",
+    "width": 280,
+    "height": 240,
+    "texts": [
+      "QUICK CAPTURE",
+      "Capture Idea, Mission or Link",
+      "Instantly save to Solaris Offline Mesh Engine or Knowledge Library",
+      "100% Offline \u2022 Zero Friction",
+      "+ SAVE",
+      "+ CAPTURE"
+    ],
+    "fontScale": "1"
+  }
+]
