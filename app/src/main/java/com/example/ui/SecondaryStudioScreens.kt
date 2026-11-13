@@ -937,6 +937,7 @@ fun CustomizationAndVaultScreen(
     ) {
         item {
             Text("Customization Studio & Backup Vault", style = MaterialTheme.typography.headlineMedium)
+            PrivacyPolicyPanel()
             Text(
                 "100% free Lofi Japanese stationery & Kyoto café themes, instant Washi Light / Rainy Dark / True OLED / System mode, local reminders, and atomic JSON backup vault.",
                 style = MaterialTheme.typography.bodySmall,

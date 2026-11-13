@@ -1,0 +1,47 @@
+[
+  {
+    "file": "play-store/feature-1024x500.png",
+    "bytes": 23457,
+    "sha256": "77e6fe1c4878b329262dd28ab9be8dc15a5ef9324f599b4a8d83d328d57ee6f6"
+  },
+  {
+    "file": "play-store/icon-512.png",
+    "bytes": 6373,
+    "sha256": "be6fb52de3ce4d58bf994be10cfff3b3fc95ce1164495b83b7794ceb4037f6e9"
+  },
+  {
+    "file": "play-store/screenshots/phone/01-light-home.png",
+    "bytes": 184031,
+    "sha256": "9be9498e3942a800611b30a42dc36e806bca83db86550945a046619d220caf36"
+  },
+  {
+    "file": "play-store/screenshots/phone/02-projects.png",
+    "bytes": 206904,
+    "sha256": "e6e857e0b30eed180e7f44d3ce181446466dd589b7428e104c893a1fb118796e"
+  },
+  {
+    "file": "play-store/screenshots/phone/03-save-points.png",
+    "bytes": 198988,
+    "sha256": "6af3d0b79ec5621ebe02d947979041bdfe09347a397a16548d3577ae4398cea5"
+  },
+  {
+    "file": "play-store/screenshots/phone/04-focus.png",
+    "bytes": 160350,
+    "sha256": "de2fddedcb816f685af985d52ed534af6237c307434ab2d9110e56d857ecdd4c"
+  },
+  {
+    "file": "play-store/screenshots/phone/05-library.png",
+    "bytes": 162130,
+    "sha256": "855f3393f2c12db9e7ffe73d7653368d3dc823b20c1132d125b75b3ec751b4d3"
+  },
+  {
+    "file": "play-store/screenshots/phone/06-dark-home.png",
+    "bytes": 184845,
+    "sha256": "ebb73c559a9bef74c408aeca97d7731f79da094f54def0d471f78ab196ce019d"
+  },
+  {
+    "file": "play-store/screenshots/phone/07-oled-home.png",
+    "bytes": 180192,
+    "sha256": "bba8b62e4ac250270a9fc267e7d75df2c8a3f5f3392889aee58ed19db8538fab"
+  }
+]

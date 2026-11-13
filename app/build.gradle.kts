@@ -10,7 +10,7 @@ android {
   compileSdk = 37
 
   defaultConfig {
-    applicationId = "com.aistudio.returnmark.rmk20"
+    applicationId = "com.tiniflegar.fumipoka"
     minSdk = 24
     targetSdk = 36
     versionCode = 2
