@@ -28,5 +28,11 @@
     "package": "com.tiniflegar.fumipoka",
     "result": "1/1 passed.",
     "details": "API 24 emulator emulator-5556; navigation/theme recreation check passed after collapsing the Save Point FAB on narrow layouts so it does not cover the System appearance option."
+  },
+  "processDeathSmoke": {
+    "api": 26,
+    "result": "PASS",
+    "method": "adb force-stop followed by launcher relaunch; resumed activity verified",
+    "scope": "Debug build, no data wipe."
   }
 }
