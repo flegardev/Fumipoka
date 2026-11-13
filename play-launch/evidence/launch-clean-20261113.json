@@ -1,0 +1,24 @@
+{
+  "command": [
+    "<workspace>\\returnmark (1)\\gradlew.bat",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console",
+    "plain",
+    "--max-workers=1",
+    "-I",
+    "<workspace>\\kissaten\\tools\\qa.init.gradle",
+    "clean",
+    ":app:assembleDebug",
+    ":app:testDebugUnitTest",
+    ":app:lintDebug",
+    ":app:lintRelease",
+    ":app:assembleDebugAndroidTest",
+    ":app:bundleRelease",
+    "-PkissatenUnsignedRelease=true"
+  ],
+  "exitCode": 0,
+  "seconds": 326.6,
+  "log": "<workspace>\\kissaten\\evidence\\returnmark\\launch-clean-20261113.log",
+  "sourceFingerprint": "bbbccb4a07cb2ec267649977e081aad52bd269fe8641e0b28a4d4594daecddc3"
+}

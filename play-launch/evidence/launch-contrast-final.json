@@ -1,0 +1,23 @@
+{
+  "command": [
+    "<workspace>\\returnmark (1)\\gradlew.bat",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--console",
+    "plain",
+    "--max-workers=1",
+    "-I",
+    "<workspace>\\kissaten\\tools\\qa.init.gradle",
+    ":app:assembleDebug",
+    ":app:testDebugUnitTest",
+    ":app:lintDebug",
+    ":app:lintRelease",
+    ":app:assembleDebugAndroidTest",
+    ":app:bundleRelease",
+    "-PkissatenUnsignedRelease=true"
+  ],
+  "exitCode": 0,
+  "seconds": 308.5,
+  "log": "<workspace>\\kissaten\\evidence\\returnmark\\launch-contrast-final.log",
+  "sourceFingerprint": "089070898b357c39202af74c0c35c7623cb5e205f7d45da253bc7b7ab257ba6f"
+}

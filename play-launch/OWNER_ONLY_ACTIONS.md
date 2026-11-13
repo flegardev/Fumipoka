@@ -1,0 +1,9 @@
+# Fumipoka — Owner Only Actions
+
+13 November 2026.
+
+1. **Console and signing:** identify the exact `com.aistudio.returnmark.rmk20` listing, recover existing drafts instead of duplicates, inspect versions/upload certificate and restore the matching authorized key securely where a signing history exists. For an actually new package, complete first-time signing only after confirming its Console record; the owner says the projects have no release keys. Choose a confirmed unused increasing code. No verified owner-signed artifact is available here.
+2. **Legal/product decisions:** approve provisional name/logo, actual audience/countries, IARC and truthful Data safety/Health declarations. No dedicated health-management feature was found in this project journal/focus tool. Draft No health features only after owner review of the final binary and actual form. Complete actual identity/package/trader requirements without invented personal/company details.
+3. **Real testing/release:** supply consenting testers/feedback, complete applicable 12-tester/14-day closed testing and production access, remedy findings, then approve the concrete signed release. Source pushes, emulator passes and policy pages are not production access.
+
+The old `com.tiniflegar.returnmark` Console app was separately deleted after the owner's request and verification; it was not Fumipoka. All three source projects are preserved. No missing owner/Google decision is replaced by a fabricated success claim.
