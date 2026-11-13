@@ -17,7 +17,11 @@
     "path": "C:\\Users\\tinif\\Downloads\\hi\\returnmark (1)\\app\\build\\outputs\\bundle\\release\\app-release.aab",
     "sha256": "4027A668918E720A79E09A86961EE9C941ABF9A29FD3AB2A04F78FC2B072B44E",
     "signed": false,
-    "uploadable": false
+    "uploadable": false,
+    "manifestPermissions": [
+      "android.permission.POST_NOTIFICATIONS",
+      "com.tiniflegar.fumipoka.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+    ]
   },
   "buildTasks": "assembleDebug, testDebugUnitTest, lintDebug, bundleRelease, assembleDebugAndroidTest",
   "playConsole": "Package name availability checked; app entry not created because required policy and export-law certifications await owner approval.",
