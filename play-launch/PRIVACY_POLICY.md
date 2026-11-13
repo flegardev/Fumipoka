@@ -4,7 +4,7 @@ Fumipoka Privacy Policy
 Publisher and product owner: Tini Flegar
 Support and privacy contact: tini.flegar@gmail.com
 Effective date: 13 November 2026
-Android package: com.aistudio.returnmark.rmk20
+Android package: com.tiniflegar.fumipoka
 
 Local records and app operation
 Fumipoka keeps projects, Save Points, missions, references, Rescue history, focus sessions and preferences in Android app-private storage on this device. Optional timer-recovery snapshots preserve elapsed time and selected session details and reopen paused after interruption. References may contain file locations or links that you save. No account is required.
