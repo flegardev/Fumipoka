@@ -1,0 +1,159 @@
+{
+  "debug": {
+    "path": "app\\build\\intermediates\\merged_manifests\\debug\\processDebugManifest\\AndroidManifest.xml",
+    "permissions": [
+      "android.permission.POST_NOTIFICATIONS",
+      "com.aistudio.returnmark.rmk20.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+    ],
+    "allowBackup": "false",
+    "exported": [
+      {
+        "type": "activity",
+        "name": "com.example.qa.WidgetPreviewActivity",
+        "permission": null
+      },
+      {
+        "type": "activity",
+        "name": "com.example.MainActivity",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.ContinueProjectWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.CurrentMissionWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.QuickSavePointWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.ActiveProjectsWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.FocusTimerWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.ProjectProgressWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.NextMissionWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.PinnedProjectWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.RecentCheckpointsWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.QuickCaptureWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "activity",
+        "name": "androidx.compose.ui.tooling.PreviewActivity",
+        "permission": null
+      },
+      {
+        "type": "activity",
+        "name": "androidx.activity.ComponentActivity",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "androidx.profileinstaller.ProfileInstallReceiver",
+        "permission": "android.permission.DUMP"
+      }
+    ],
+    "internetAbsent": true
+  },
+  "release": {
+    "path": "app\\build\\intermediates\\merged_manifests\\release\\processReleaseManifest\\AndroidManifest.xml",
+    "permissions": [
+      "android.permission.POST_NOTIFICATIONS",
+      "com.aistudio.returnmark.rmk20.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+    ],
+    "allowBackup": "false",
+    "exported": [
+      {
+        "type": "activity",
+        "name": "com.example.MainActivity",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.ContinueProjectWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.CurrentMissionWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.QuickSavePointWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.ActiveProjectsWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.FocusTimerWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.ProjectProgressWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.NextMissionWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.PinnedProjectWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.RecentCheckpointsWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "com.example.widget.QuickCaptureWidgetReceiver",
+        "permission": null
+      },
+      {
+        "type": "receiver",
+        "name": "androidx.profileinstaller.ProfileInstallReceiver",
+        "permission": "android.permission.DUMP"
+      }
+    ],
+    "internetAbsent": true
+  }
+}

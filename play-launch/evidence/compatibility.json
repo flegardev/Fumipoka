@@ -1,0 +1,33 @@
+{
+  "applicationId": {
+    "before": "com.aistudio.returnmark.rmk20",
+    "after": "com.aistudio.returnmark.rmk20",
+    "preserved": true
+  },
+  "namespace": {
+    "before": "com.example",
+    "after": "com.example",
+    "preserved": true
+  },
+  "preferenceKeys": {
+    "removed": [],
+    "added": [],
+    "preserved": true
+  },
+  "actionStrings": {
+    "before": {},
+    "after": {},
+    "preserved": true
+  },
+  "roomSchemas": [
+    {
+      "file": "app/schemas/com.example.data.ReturnmarkDatabase/3.json",
+      "version": 3,
+      "identityHash": "80a459078fad2e2a38feece699d23c58",
+      "unchanged": true,
+      "baselineExportPresent": true,
+      "verification": "JSON equality"
+    }
+  ],
+  "signingSourceUnchanged": true
+}

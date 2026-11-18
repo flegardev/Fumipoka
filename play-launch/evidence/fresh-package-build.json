@@ -1,0 +1,42 @@
+{
+  "app": "Fumipoka",
+  "packageName": "com.tiniflegar.fumipoka",
+  "namespacePreserved": true,
+  "minSdk": 24,
+  "targetSdk": 36,
+  "versionCode": 2,
+  "versionName": "2.0.0",
+  "unitTests": {
+    "count": 19,
+    "failures": 0,
+    "errors": 0
+  },
+  "api37DeviceValidation": "API 37 emulator emulator-5554; KissatenDeviceTest passed (1/1).",
+  "instrumentationEvidence": "FreshPackageMigration.json passed.",
+  "releaseBundle": {
+    "path": "C:\\Users\\tinif\\Downloads\\hi\\returnmark (1)\\app\\build\\outputs\\bundle\\release\\app-release.aab",
+    "sha256": "4027A668918E720A79E09A86961EE9C941ABF9A29FD3AB2A04F78FC2B072B44E",
+    "signed": false,
+    "uploadable": false,
+    "manifestPermissions": [
+      "android.permission.POST_NOTIFICATIONS",
+      "com.tiniflegar.fumipoka.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+    ]
+  },
+  "buildTasks": "assembleDebug, testDebugUnitTest, lintDebug, bundleRelease, assembleDebugAndroidTest",
+  "playConsole": "Package name availability checked; app entry not created because required policy and export-law certifications await owner approval.",
+  "privacyPolicy": "Published URL is live; its package reference remains stale pending owner approval and publication.",
+  "minimumApiDeviceValidation": {
+    "api": "API 24",
+    "device": "Dedicated QA emulator",
+    "package": "com.tiniflegar.fumipoka",
+    "result": "1/1 passed.",
+    "details": "API 24 emulator emulator-5556; navigation/theme recreation check passed after collapsing the Save Point FAB on narrow layouts so it does not cover the System appearance option."
+  },
+  "processDeathSmoke": {
+    "api": 26,
+    "result": "PASS",
+    "method": "adb force-stop followed by launcher relaunch; resumed activity verified",
+    "scope": "Debug build, no data wipe."
+  }
+}

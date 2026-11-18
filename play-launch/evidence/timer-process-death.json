@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "serial": "emulator-5554",
+  "before": {
+    "payload": {
+      "mode": "POMODORO",
+      "planned": 1500,
+      "elapsed": 0,
+      "running": true,
+      "project": 0,
+      "mission": 0,
+      "notes": "",
+      "sound": "NONE",
+      "started": 1794556245711
+    },
+    "active": true,
+    "uptime": 93966556,
+    "boot": 6
+  },
+  "after": {
+    "payload": {
+      "mode": "POMODORO",
+      "planned": 1500,
+      "elapsed": 23,
+      "running": true,
+      "project": 0,
+      "mission": 0,
+      "notes": "",
+      "sound": "NONE",
+      "started": 1794556245711
+    },
+    "active": false,
+    "uptime": 93990431,
+    "boot": 6
+  },
+  "resumedAndPaused": {
+    "payload": {
+      "mode": "POMODORO",
+      "planned": 1500,
+      "elapsed": 32,
+      "running": true,
+      "project": 0,
+      "mission": 0,
+      "notes": "",
+      "sound": "NONE",
+      "started": 1794556245711
+    },
+    "active": false,
+    "uptime": 94027098,
+    "boot": 6
+  },
+  "note": "Actual UI start, background, force-stop, relaunch, explicit resume/pause. Original timer snapshot restored; no history records added. Reboot/disk-full/expiry notification behavior is separate."
+}

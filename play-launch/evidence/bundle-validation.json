@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "sourceAabSha256": "64bdf8fa666dcf43ed79154434b42310b14cfd07ff2102de618de0736884de66",
+  "qaApkSha256": "970235053c9df1c61e77ac025f9e717153858d4f4560453c22054d07cb8d4265",
+  "zipalign16KiB": true,
+  "commands": [
+    {
+      "command": [
+        "C:\\Program Files\\Android\\Android Studio\\jbr\\bin\\java.exe",
+        "-Xmx512m",
+        "-jar",
+        "<workspace>\\kissaten\\launch-20261113\\tools\\bundletool-all-1.18.3.jar",
+        "validate",
+        "--bundle=<workspace>\\returnmark (1)\\app\\build\\outputs\\bundle\\release\\app-release.aab"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Android\\Android Studio\\jbr\\bin\\java.exe",
+        "-Xmx512m",
+        "-jar",
+        "<workspace>\\kissaten\\launch-20261113\\tools\\bundletool-all-1.18.3.jar",
+        "build-apks",
+        "--bundle=<workspace>\\returnmark (1)\\app\\build\\outputs\\bundle\\release\\app-release.aab",
+        "--output=<workspace>\\kissaten\\launch-20261113\\returnmark\\release-QA.apks",
+        "--overwrite",
+        "--mode=universal",
+        "--ks=C:\\Users\\tinif\\.android\\debug.keystore",
+        "--ks-key-alias=androiddebugkey",
+        "--ks-pass=file:<workspace>\\kissaten\\launch-20261113\\tools\\qa-password.txt",
+        "--key-pass=file:<workspace>\\kissaten\\launch-20261113\\tools\\qa-password.txt"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "note": "APK derived from the unsigned release bundle and signed ONLY with the existing workstation debug key for emulator QA. Neither this APK nor the unsigned AAB is a Play upload candidate."
+}

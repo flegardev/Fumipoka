@@ -60,6 +60,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.compositeOver
+import com.example.ui.theme.kissatenTone
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -210,7 +212,7 @@ fun ProjectsScreen(
                                     Text(
                                         text = "CONTINUE WHERE I LEFT OFF",
                                         style = MaterialTheme.typography.labelMedium,
-                                        color = accent,
+                                        color = kissatenTone(accent, accent.copy(alpha = 0.18f).compositeOver(MaterialTheme.colorScheme.surface)),
                                         fontWeight = FontWeight.Bold,
                                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
                                     )
@@ -437,7 +439,7 @@ fun ProjectsScreen(
                         Text(
                             text = if (project.isSampleData) "${project.status} • SAMPLE" else project.status,
                             style = MaterialTheme.typography.labelSmall,
-                            color = accent
+                            color = kissatenTone(accent, if (isSelected) MaterialTheme.colorScheme.surfaceVariant else MaterialTheme.colorScheme.surface)
                         )
                     }
                     Spacer(modifier = Modifier.height(4.dp))
@@ -509,7 +511,7 @@ private fun ResumeDetailRow(
         Text(
             text = value,
             style = MaterialTheme.typography.bodyLarge,
-            color = highlightColor ?: MaterialTheme.colorScheme.onSurface,
+            color = highlightColor?.let { kissatenTone(it, MaterialTheme.colorScheme.surface) } ?: MaterialTheme.colorScheme.onSurface,
             fontWeight = if (highlightColor != null) FontWeight.SemiBold else FontWeight.Normal
         )
     }

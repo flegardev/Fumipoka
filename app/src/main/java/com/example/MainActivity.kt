@@ -255,7 +255,7 @@ fun ReturnmarkAppRoot(viewModel: MainViewModel) {
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     shape = RoundedCornerShape(20.dp),
-                    expanded = androidx.compose.ui.platform.LocalDensity.current.fontScale < 1.3f,
+                    expanded = androidx.compose.ui.platform.LocalDensity.current.fontScale < 1.3f && maxWidth >= 400.dp,
                     icon = { Icon(Icons.Default.BookmarkAdded, contentDescription = "Save Point") },
                     text = { Text("Save Point", fontWeight = FontWeight.Bold) },
                     modifier = Modifier.testTag("fab_save_point")

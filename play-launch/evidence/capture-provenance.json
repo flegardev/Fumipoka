@@ -1,0 +1,44 @@
+[
+  {
+    "file": "api24-home.png",
+    "source": "kissaten/evidence/returnmark/screenshots/launch-api24/home.png",
+    "sha256": "2c6605db43c39775f83cc2e8a7dac514ddf0cbd235b8cbb4ffcb06d58fc57588",
+    "note": "Actual bundle-derived QA-only release APK on a new explicitly gated AVD; fictional/empty test records. No editing."
+  },
+  {
+    "file": "api24-font150.png",
+    "source": "kissaten/evidence/returnmark/screenshots/launch-api24/font150.png",
+    "sha256": "00c3784babbfc7ebb2df3ca14efa198993a06e7cc51ed65116971cdf29c33267",
+    "note": "Actual bundle-derived QA-only release APK on a new explicitly gated AVD; fictional/empty test records. No editing."
+  },
+  {
+    "file": "api26-home.png",
+    "source": "kissaten/evidence/returnmark/screenshots/launch-api26/home.png",
+    "sha256": "5059e73466df02e25f455ae7006c2eaf49361b842aab8364de82b18e453456e8",
+    "note": "Actual bundle-derived QA-only release APK on a new explicitly gated AVD; fictional/empty test records. No editing."
+  },
+  {
+    "file": "api26-font150.png",
+    "source": "kissaten/evidence/returnmark/screenshots/launch-api26/font150.png",
+    "sha256": "8455f3ce46ca1734d4eba9ae7b6f259427926d3651c9a758464b2cf0b72064ad",
+    "note": "Actual bundle-derived QA-only release APK on a new explicitly gated AVD; fictional/empty test records. No editing."
+  },
+  {
+    "file": "api35-home.png",
+    "source": "kissaten/evidence/returnmark/screenshots/launch-api35/home.png",
+    "sha256": "fda6c8d14975dfb3ad2a8819fed0cabf796e9fb954d0ea5566a1b2fda094303e",
+    "note": "Actual bundle-derived QA-only release APK on a new explicitly gated AVD; fictional/empty test records. No editing."
+  },
+  {
+    "file": "api35-font150.png",
+    "source": "kissaten/evidence/returnmark/screenshots/launch-api35/font150.png",
+    "sha256": "712034147a39d1feee7dc8b7364e48636fc01ffc378d7b8f3686d725ae5b02c9",
+    "note": "Actual bundle-derived QA-only release APK on a new explicitly gated AVD; fictional/empty test records. No editing."
+  },
+  {
+    "file": "privacy-font150.png",
+    "source": "kissaten/evidence/returnmark/screenshots/launch-privacy/font1.png",
+    "sha256": "2274d2072181909bc6cfb405cb3a5b5ebc9ba2f7b6793d823ec0354127fba4d2",
+    "note": "Actual final debug APK offline policy dialog. No editing."
+  }
+]
