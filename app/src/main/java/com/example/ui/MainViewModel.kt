@@ -1,17 +1,18 @@
 package com.example.ui
 
-import androidx.compose.ui.graphics.toArgb
 import android.app.Application
 import android.net.Uri
 import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.withTransaction
 import com.example.data.AmbientSoundType
 import com.example.data.BackupValidationResult
 import com.example.data.BackupVaultManager
 import com.example.data.DashboardWidgetConfig
 import com.example.data.FocusModeType
 import com.example.data.FocusSessionEntity
+import com.example.data.LocalAttachments
 import com.example.data.LayoutDensityMode
 import com.example.data.MilestoneItem
 import com.example.data.MissionEntity
@@ -37,6 +38,7 @@ import com.example.domain.DependencyValidator
 import com.example.domain.ReturnmarkNotificationHelper
 import com.example.widget.ReturnmarkWidgetUpdater
 import com.example.widget.WidgetSnapshotData
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -50,6 +52,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 enum class PrimaryDestination(val label: String) {
     HOME("Home"),
@@ -67,7 +71,8 @@ enum class SecondaryDestination(val label: String) {
     STATISTICS("Statistics"),
     TEMPLATES("Templates"),
     WIDGETS("Widgets"),
-    SETTINGS("Customization & Vault")
+    SETTINGS("Settings"),
+    DASHBOARD_TOOLS("Dashboard tools")
 }
 
 enum class MissionViewMode(val label: String) {
@@ -100,6 +105,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val dao = db.dao()
     private val prefsRepo = PreferencesRepository(application)
     private val ambientSynth = AmbientSoundSynthesizer()
+    private val attachmentChanges = Mutex()
 
     val projects: StateFlow<List<ProjectEntity>> = dao.observeAllProjects()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
@@ -146,6 +152,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _sharedIncomingText = MutableStateFlow<String?>(null)
     val sharedIncomingText: StateFlow<String?> = _sharedIncomingText.asStateFlow()
+
+    private val _pendingAttachment = MutableStateFlow<Uri?>(null)
+    val pendingAttachment: StateFlow<Uri?> = _pendingAttachment.asStateFlow()
 
     private val _statusBannerMessage = MutableStateFlow<String?>(null)
     val statusBannerMessage: StateFlow<String?> = _statusBannerMessage.asStateFlow()
@@ -199,38 +208,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         // Keep Native Android Home-Screen Widgets & optional Pinned Context Notification synchronized
         viewModelScope.launch {
-            combine(projects, savePoints, missions, focusSessions, preferences) { pList, spList, mList, fList, prefs ->
-                val activeProj = pList.find { it.id == prefs.selectedProjectId } ?: pList.firstOrNull()
-                val latestSp = spList.firstOrNull { it.projectId == activeProj?.id && !it.isArchived }
-                    ?: spList.firstOrNull { !it.isArchived }
-                val currentMission = mList.firstOrNull {
-                    it.projectId == activeProj?.id && it.status == MissionStatus.IN_PROGRESS.name
-                } ?: mList.firstOrNull { it.status != MissionStatus.DONE.name }
-                val nextMission = mList.firstOrNull {
-                    it.projectId == activeProj?.id && it.status == MissionStatus.NEXT_UP.name
-                } ?: currentMission
-                val doneCount = mList.count { it.status == MissionStatus.DONE.name }
-                val totalFocusMins = (fList.sumOf { it.actualElapsedSeconds } / 60L).toInt()
-
-                val widgetColors = com.example.ui.theme.resolveReturnmarkColors(
-                    getApplication<Application>(), prefs.themeMode, prefs.appearanceMode, prefs.customAccentHex,
-                    (getApplication<Application>().resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
-                )
+            combine(projects, savePoints, preferences) { pList, spList, prefs ->
+                val active = pList.filter { it.status == ProjectStatus.ACTIVE.name }
+                val latest = spList.firstOrNull { sp -> !sp.isArchived && active.any { it.id == sp.projectId } }
+                val activeProj = active.find { it.id == latest?.projectId }
+                    ?: active.find { it.id == prefs.selectedProjectId } ?: active.firstOrNull()
                 val snapshot = WidgetSnapshotData(
-                    backgroundArgb = widgetColors.surface.toArgb(),
-                    inkArgb = widgetColors.onSurface.toArgb(),
-                    accentArgb = widgetColors.primary.toArgb(),
-                    activeProjectName = activeProj?.name ?: "Fumipoka Workspace",
-                    activeContext = activeProj?.currentContextSummary?.ifBlank { activeProj.tagline } ?: "Tap to create or resume a project",
-                    lastSavePointTitle = latestSp?.title ?: "No Save Point yet",
-                    nextManualStep = activeProj?.nextManualStep?.ifBlank { latestSp?.nextAction ?: "Capture your first Save Point" }
-                        ?: "Capture your first Save Point",
-                    currentMissionTitle = currentMission?.title ?: "All missions clear",
-                    nextMissionTitle = nextMission?.title ?: "Create your next mission",
-                    activeProjectsCount = pList.count { it.status == ProjectStatus.ACTIVE.name },
-                    completedMissionsCount = doneCount,
-                    totalMissionsCount = mList.size,
-                    totalFocusMinutes = totalFocusMins
+                    appearance = prefs.appearanceMode.name,
+                    activeProjectName = activeProj?.name.orEmpty(),
+                    activeContext = latest?.happeningNow.orEmpty().take(240),
+                    lastSavePointTitle = latest?.title.orEmpty().take(120),
+                    nextManualStep = activeProj?.nextManualStep.orEmpty(),
+                    activeProjectsCount = active.size
                 )
 
                 ReturnmarkNotificationHelper.updatePinnedContextNotification(
@@ -320,7 +309,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             showBanner("Shared content ready to save in Knowledge Library")
         }
         when (widgetShortcut) {
-            "OPEN_CONTINUE" -> navigatePrimary(PrimaryDestination.PROJECTS)
+            "OPEN_HOME" -> navigatePrimary(PrimaryDestination.HOME)
+            "OPEN_CONTINUE" -> viewModelScope.launch {
+                val active = dao.getAllProjectsSnapshot().filter { it.status == ProjectStatus.ACTIVE.name }
+                val point = dao.getAllSavePointsSnapshot().firstOrNull { point ->
+                    !point.isArchived && active.any { it.id == point.projectId }
+                }
+                val project = active.firstOrNull { it.id == point?.projectId } ?: active.firstOrNull()
+                if (project != null) selectActiveProject(project.id)
+                navigatePrimary(if (project != null) PrimaryDestination.PROJECTS else PrimaryDestination.HOME)
+            }
             "OPEN_MISSIONS" -> navigateSecondary(SecondaryDestination.MISSIONS)
             "OPEN_QUICK_SAVE" -> openSavePointSheet(quickMode = true)
             "OPEN_PROJECTS" -> navigatePrimary(PrimaryDestination.PROJECTS)
@@ -336,6 +334,50 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _sharedIncomingText.value = null
     }
 
+    fun offerAttachment(uri: Uri) {
+        navigatePrimary(PrimaryDestination.LIBRARY)
+        _pendingAttachment.value = uri
+    }
+
+    fun dismissAttachment() {
+        _pendingAttachment.value = null
+    }
+
+    fun saveAttachment() {
+        val uri = _pendingAttachment.value ?: return
+        dismissAttachment()
+        val context = getApplication<Application>()
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                attachmentChanges.withLock {
+                    val attachment = LocalAttachments.import(context, uri)
+                    try {
+                        dao.insertReference(
+                            ReferenceItemEntity(
+                                projectId = preferences.value.selectedProjectId.takeIf { it > 0 },
+                                title = attachment.title,
+                                type = attachment.type.name,
+                                contentOrUri = attachment.token
+                            )
+                        )
+                    } catch (error: Exception) {
+                        if (error !is CancellationException) LocalAttachments.delete(context, attachment.token)
+                        throw error
+                    }
+                }
+                showBanner("Attachment saved")
+            } catch (error: CancellationException) {
+                throw error
+            } catch (error: IllegalArgumentException) {
+                showBanner(error.message ?: "This attachment could not be saved.")
+            } catch (error: SecurityException) {
+                showBanner("File access expired. Share or choose the file again.")
+            } catch (error: Exception) {
+                showBanner("This attachment could not be saved.")
+            }
+        }
+    }
+
     // --- Project Operations ---
     fun selectActiveProject(projectId: Long) {
         viewModelScope.launch {
@@ -349,63 +391,53 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun createProject(
         name: String,
-        tagline: String,
-        description: String,
-        colorHex: String,
-        iconName: String,
+        tagline: String = "",
+        description: String = "",
+        colorHex: String = "#B66D53",
+        iconName: String = "bookmark",
         template: ProjectTemplateModel = ProjectTemplatesCatalog.builtInTemplates.first()
     ) {
         val cleanName = name.trim()
         if (cleanName.isBlank()) return
         viewModelScope.launch {
             val now = System.currentTimeMillis()
+            val blank = template.id == "tpl_blank"
             val milestones = template.defaultMilestones.mapIndexed { idx, title ->
                 MilestoneItem("ms_${now}_$idx", title, isCompleted = false, targetDateLabel = "Phase ${idx + 1}")
             }
-            val newProjectId = dao.insertProject(
-                ProjectEntity(
-                    name = cleanName,
-                    tagline = tagline.trim().ifBlank { template.tagline },
-                    description = description.trim().ifBlank { template.description },
-                    colorHex = colorHex,
-                    iconName = iconName,
-                    status = ProjectStatus.ACTIVE.name,
-                    isPinned = false,
-                    currentContextSummary = "Initialized from ${template.name} template.",
-                    lastCompletedAction = "Project workspace created.",
-                    nextManualStep = template.defaultMissions.firstOrNull() ?: "Capture first Save Point.",
-                    milestonesJson = ProjectEntity.encodeMilestones(milestones),
-                    templateSource = template.name,
-                    createdAt = now,
-                    updatedAt = now,
-                    lastOpenedAt = now,
-                    isSampleData = false
-                )
-            )
-            template.defaultMissions.forEachIndexed { idx, missionTitle ->
-                dao.insertMission(
-                    MissionEntity(
-                        projectId = newProjectId,
-                        title = missionTitle,
-                        description = "Template mission (${template.name})",
-                        status = if (idx == 0) MissionStatus.IN_PROGRESS.name else MissionStatus.NEXT_UP.name,
-                        priority = if (idx == 0) MissionPriority.HIGH.name else MissionPriority.MEDIUM.name,
-                        manualOrder = idx + 1,
-                        createdAt = now
+            val newProjectId = db.withTransaction {
+                val projectId = dao.insertProject(
+                    ProjectEntity(
+                        name = cleanName,
+                        tagline = tagline.trim().ifBlank { if (blank) "" else template.tagline },
+                        description = description.trim().ifBlank { if (blank) "" else template.description },
+                        colorHex = colorHex,
+                        iconName = iconName,
+                        status = ProjectStatus.ACTIVE.name,
+                        isPinned = false,
+                        milestonesJson = ProjectEntity.encodeMilestones(milestones),
+                        templateSource = template.name,
+                        createdAt = now,
+                        updatedAt = now,
+                        lastOpenedAt = now,
+                        isSampleData = false
                     )
                 )
+                template.defaultMissions.forEachIndexed { idx, missionTitle ->
+                    dao.insertMission(
+                        MissionEntity(
+                            projectId = projectId,
+                            title = missionTitle,
+                            description = "Template mission (${template.name})",
+                            status = if (idx == 0) MissionStatus.IN_PROGRESS.name else MissionStatus.NEXT_UP.name,
+                            priority = if (idx == 0) MissionPriority.HIGH.name else MissionPriority.MEDIUM.name,
+                            manualOrder = idx + 1,
+                            createdAt = now
+                        )
+                    )
+                }
+                projectId
             }
-            dao.insertSavePoint(
-                SavePointEntity(
-                    projectId = newProjectId,
-                    title = "Workspace Initialized: $cleanName",
-                    completedSummary = "Created project structure from ${template.name}.",
-                    happeningNow = "Ready to begin first mission.",
-                    nextAction = template.defaultMissions.firstOrNull() ?: "Define first step.",
-                    tags = "kickoff,${template.category.lowercase()}",
-                    timestamp = now
-                )
-            )
             prefsRepo.setSelectedProjectId(newProjectId)
             showBanner("Created project \"$cleanName\"")
         }
@@ -980,8 +1012,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun deleteReference(id: Long) {
-        viewModelScope.launch {
-            dao.deleteReferenceById(id)
+        viewModelScope.launch(Dispatchers.IO) {
+            attachmentChanges.withLock {
+                val token = dao.getReference(id)?.contentOrUri
+                dao.deleteReferenceById(id)
+                if (token != null && LocalAttachments.isLocal(token) &&
+                    dao.getAllReferencesSnapshot().none { it.contentOrUri == token }) {
+                    LocalAttachments.delete(getApplication(), token)
+                }
+            }
             showBanner("Reference removed")
         }
     }
@@ -1088,45 +1127,66 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // --- Backup & Restore Vault (with Native SAF Document Picker Export & Import) ---
-    private suspend fun buildCurrentBackupJsonString(): String {
-        return BackupVaultManager.exportFullBackupJson(
-            projects = dao.getAllProjectsSnapshot(),
-            savePoints = dao.getAllSavePointsSnapshot(),
-            missions = dao.getAllMissionsSnapshot(),
-            references = dao.getAllReferencesSnapshot(),
-            focusSessions = dao.getAllFocusSessionsSnapshot(),
-            rescueSessions = dao.getAllRescueSessionsSnapshot(),
-            preferences = prefsRepo.getSnapshot()
-        )
+    private suspend fun buildCurrentBackupJsonString(): String = withContext(Dispatchers.IO) {
+        attachmentChanges.withLock {
+            val references = dao.getAllReferencesSnapshot()
+            val attachmentBytes = mutableMapOf<String, ByteArray>()
+            var totalEncodedBytes = 0L
+            for (token in references.map { it.contentOrUri }.filter(LocalAttachments::isLocal).distinct()) {
+                val bytes = LocalAttachments.readForBackup(getApplication(), token)
+                totalEncodedBytes += ((bytes.size.toLong() + 2) / 3) * 4
+                require(totalEncodedBytes < com.example.data.MAX_DOCUMENT_BYTES) {
+                    "Attachments exceed the 16 MiB JSON backup limit."
+                }
+                attachmentBytes[token] = bytes
+            }
+            val json = BackupVaultManager.exportFullBackupJson(
+                projects = dao.getAllProjectsSnapshot(),
+                savePoints = dao.getAllSavePointsSnapshot(),
+                missions = dao.getAllMissionsSnapshot(),
+                references = references,
+                focusSessions = dao.getAllFocusSessionsSnapshot(),
+                rescueSessions = dao.getAllRescueSessionsSnapshot(),
+                preferences = prefsRepo.getSnapshot(),
+                attachments = attachmentBytes
+            )
+            com.example.data.validateDocumentStructure(json)
+            json
+        }
     }
 
     fun generateFullBackupJson() {
         viewModelScope.launch {
-            val json = buildCurrentBackupJsonString()
-            _exportedBackupJson.value = json
-            showBanner("Generated full Fumipoka v3 JSON backup (unencrypted plaintext)")
+            if (dao.getAllReferencesSnapshot().any { LocalAttachments.isLocal(it.contentOrUri) }) {
+                _exportedBackupJson.value = ""
+                showBanner("Use Save backup file to include attachments.")
+                return@launch
+            }
+            try {
+                _exportedBackupJson.value = buildCurrentBackupJsonString()
+                showBanner("Backup ready to copy")
+            } catch (error: CancellationException) {
+                throw error
+            } catch (error: Exception) {
+                showBanner(error.message ?: "Could not create backup.")
+            }
         }
     }
 
     fun exportFullBackupToDocumentUri(uri: Uri) {
         viewModelScope.launch {
-            val json = buildCurrentBackupJsonString()
-            _exportedBackupJson.value = json
-            val result = withContext(Dispatchers.IO) {
-                try {
-                    getApplication<Application>().contentResolver.openOutputStream(uri)?.use { out ->
-                        out.write(json.toByteArray(Charsets.UTF_8))
-                        out.flush()
-                    } ?: throw IllegalStateException("Unable to open output stream for selected file")
-                    Result.success(Unit)
-                } catch (e: Throwable) {
-                    Result.failure(e)
+            try {
+                val json = buildCurrentBackupJsonString()
+                withContext(Dispatchers.IO) {
+                    val stream = getApplication<Application>().contentResolver.openOutputStream(uri, "wt")
+                        ?: error("Could not open the backup destination.")
+                    stream.bufferedWriter(Charsets.UTF_8).use { it.write(json) }
                 }
-            }
-            if (result.isSuccess) {
-                showBanner("Saved unencrypted JSON to your chosen document provider")
-            } else {
-                showBanner("Backup file export failed: ${result.exceptionOrNull()?.localizedMessage}")
+                showBanner("Backup saved")
+            } catch (error: CancellationException) {
+                throw error
+            } catch (error: Exception) {
+                showBanner(error.message ?: "Could not save backup.")
             }
         }
     }
@@ -1170,11 +1230,37 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (currentValidation !is BackupValidationResult.Valid) return
         val payload = currentValidation.payload
         viewModelScope.launch {
-            val outcome = BackupVaultManager.executeAtomicFullRestore(
-                dao = dao,
-                prefsRepo = prefsRepo,
-                payload = payload
-            )
+            val outcome = withContext(Dispatchers.IO) {
+                attachmentChanges.withLock {
+                    val context = getApplication<Application>()
+                    val oldTokens = dao.getAllReferencesSnapshot().map { it.contentOrUri }
+                    val restored = mutableMapOf<String, String>()
+                    try {
+                        payload.attachments.forEach { (token, bytes) ->
+                            restored[token] = LocalAttachments.restoreFromBackup(context, token, bytes)
+                        }
+                        val references = payload.references.map { reference ->
+                            val newToken = restored[reference.contentOrUri]
+                            if (newToken == null) reference else reference.copy(contentOrUri = newToken)
+                        }
+                        val result = BackupVaultManager.executeAtomicFullRestore(
+                            dao, prefsRepo, payload.copy(references = references)
+                        )
+                        if (result.isSuccess) {
+                            val remaining = references.mapTo(mutableSetOf()) { it.contentOrUri }
+                            oldTokens.filterNot(remaining::contains).forEach { LocalAttachments.delete(context, it) }
+                        } else {
+                            restored.values.forEach { LocalAttachments.delete(context, it) }
+                        }
+                        result
+                    } catch (error: CancellationException) {
+                        throw error
+                    } catch (error: Exception) {
+                        restored.values.forEach { LocalAttachments.delete(context, it) }
+                        Result.failure(error)
+                    }
+                }
+            }
             if (outcome.isSuccess) {
                 _backupValidationState.value = null
                 showBanner("Restore complete: ${payload.projects.size} projects & ${payload.savePoints.size} Save Points restored")

@@ -41,6 +41,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -59,6 +61,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.compositeOver
 import com.example.ui.theme.kissatenTone
@@ -985,22 +988,25 @@ fun SavePointBottomSheet(
         attachedRefIdsCsv: String
     ) -> Unit
 ) {
-    var isQuickMode by remember { mutableStateOf(initialQuickMode) }
-    var targetProjectId by remember { mutableStateOf(selectedProjectId) }
-    val projectMissions = missions.filter { it.projectId == targetProjectId }
-    var selectedMissionId by remember(targetProjectId) { mutableStateOf(projectMissions.firstOrNull()?.id) }
-    var attachedReferenceIds by remember { mutableStateOf(setOf<Long>()) }
+    var isQuickMode by rememberSaveable { mutableStateOf(initialQuickMode) }
+    var targetProjectId by rememberSaveable { mutableStateOf(selectedProjectId) }
+    val targetProject = projects.firstOrNull { it.id == targetProjectId } ?: projects.firstOrNull()
+    val projectMissions = missions.filter { it.projectId == targetProject?.id }
+    var selectedMissionId by rememberSaveable(targetProject?.id) { mutableStateOf<Long?>(null) }
+    var attachedReferenceIds by remember(targetProject?.id) { mutableStateOf(setOf<Long>()) }
+    var choosingProject by remember { mutableStateOf(false) }
+    var choosingMission by remember { mutableStateOf(false) }
 
-    var title by remember { mutableStateOf("") }
-    var completedSummary by remember { mutableStateOf("") }
-    var happeningNow by remember { mutableStateOf("") }
-    var nextAction by remember { mutableStateOf("") }
-    var notes by remember { mutableStateOf("") }
-    var blockers by remember { mutableStateOf("") }
-    var referencesSummary by remember { mutableStateOf("") }
-    var importantLinks by remember { mutableStateOf("") }
-    var tags by remember { mutableStateOf("") }
-    var isPinned by remember { mutableStateOf(false) }
+    var title by rememberSaveable { mutableStateOf("") }
+    var completedSummary by rememberSaveable { mutableStateOf("") }
+    var happeningNow by rememberSaveable { mutableStateOf("") }
+    var nextAction by rememberSaveable { mutableStateOf("") }
+    var notes by rememberSaveable { mutableStateOf("") }
+    var blockers by rememberSaveable { mutableStateOf("") }
+    var referencesSummary by rememberSaveable { mutableStateOf("") }
+    var importantLinks by rememberSaveable { mutableStateOf("") }
+    var tags by rememberSaveable { mutableStateOf("") }
+    var isPinned by rememberSaveable { mutableStateOf(false) }
 
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(
@@ -1011,49 +1017,61 @@ fun SavePointBottomSheet(
                 .testTag("save_point_bottom_sheet"),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text("Capture Save Point", style = MaterialTheme.typography.headlineMedium)
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Quick Mode", style = MaterialTheme.typography.labelMedium)
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Switch(checked = isQuickMode, onCheckedChange = { isQuickMode = it })
+            Text("Save progress", style = MaterialTheme.typography.headlineSmall)
+            if (targetProject == null) {
+                Text("Create a project before saving progress.")
+            } else {
+                Box {
+                    OutlinedButton(onClick = { choosingProject = true }) { Text(targetProject.name) }
+                    DropdownMenu(expanded = choosingProject, onDismissRequest = { choosingProject = false }) {
+                        projects.forEach { project ->
+                            DropdownMenuItem(text = { Text(project.name) }, onClick = {
+                                targetProjectId = project.id
+                                choosingProject = false
+                            })
+                        }
+                    }
                 }
             }
-
-            // Project Selector Chips
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                projects.take(5).forEach { p ->
-                    FilterChip(
-                        selected = p.id == targetProjectId,
-                        onClick = { targetProjectId = p.id },
-                        label = { Text(p.name, maxLines = 1) }
-                    )
-                }
-            }
-
-            OutlinedTextField(
-                value = title,
-                onValueChange = { title = it },
-                label = { Text("Checkpoint Title (e.g. Paused at line 142 / Section 4.3)") },
-                singleLine = true,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("save_point_title_input")
-            )
 
             OutlinedTextField(
                 value = happeningNow,
                 onValueChange = { happeningNow = it },
-                label = { Text("What is currently happening? (Exact working context)") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("save_point_context_input")
+                label = { Text("Where did you stop?") },
+                modifier = Modifier.fillMaxWidth().testTag("save_point_context_input")
             )
 
+            TextButton(onClick = { isQuickMode = !isQuickMode }) {
+                Text(if (isQuickMode) "Add details" else "Hide details")
+            }
+
+            if (!isQuickMode) {
+            OutlinedTextField(
+                value = title,
+                onValueChange = { title = it },
+                label = { Text("Title") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth().testTag("save_point_title_input")
+            )
+            if (projectMissions.isNotEmpty()) {
+                Box {
+                    OutlinedButton(onClick = { choosingMission = true }) {
+                        Text(projectMissions.firstOrNull { it.id == selectedMissionId }?.title ?: "Link a mission")
+                    }
+                    DropdownMenu(expanded = choosingMission, onDismissRequest = { choosingMission = false }) {
+                        DropdownMenuItem(text = { Text("No mission") }, onClick = {
+                            selectedMissionId = null
+                            choosingMission = false
+                        })
+                        projectMissions.forEach { mission ->
+                            DropdownMenuItem(text = { Text(mission.title) }, onClick = {
+                                selectedMissionId = mission.id
+                                choosingMission = false
+                            })
+                        }
+                    }
+                }
+            }
             OutlinedTextField(
                 value = nextAction,
                 onValueChange = { nextAction = it },
@@ -1064,7 +1082,7 @@ fun SavePointBottomSheet(
             )
 
             // Attach Knowledge Library References directly to this Save Point
-            val candidateRefs = references.filter { it.projectId == null || it.projectId == targetProjectId }.take(6)
+            val candidateRefs = references.filter { it.projectId == null || it.projectId == targetProject?.id }
             if (candidateRefs.isNotEmpty()) {
                 Text("Attach Library References:", style = MaterialTheme.typography.labelMedium)
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -1084,7 +1102,6 @@ fun SavePointBottomSheet(
                 }
             }
 
-            if (!isQuickMode) {
                 OutlinedTextField(
                     value = completedSummary,
                     onValueChange = { completedSummary = it },
@@ -1124,42 +1141,27 @@ fun SavePointBottomSheet(
                 )
             }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            if (!isQuickMode) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(checked = isPinned, onCheckedChange = { isPinned = it })
-                    Text("Pin this Save Point")
-                }
-                Button(
-                    onClick = {
-                        onSaveCheckpoint(
-                            targetProjectId,
-                            selectedMissionId,
-                            title,
-                            completedSummary,
-                            happeningNow,
-                            nextAction,
-                            notes,
-                            blockers,
-                            referencesSummary,
-                            importantLinks,
-                            tags,
-                            isPinned,
-                            isQuickMode,
-                            attachedReferenceIds.joinToString(",")
-                        )
-                        onDismiss()
-                    },
-                    modifier = Modifier.testTag("submit_save_point_button")
-                ) {
-                    Icon(Icons.Default.BookmarkAdded, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text("Save Checkpoint")
+                    Text("Pin save point")
                 }
             }
+            Button(
+                enabled = targetProject != null && listOf(happeningNow, title, nextAction, notes, completedSummary)
+                    .any { it.isNotBlank() },
+                onClick = {
+                    val project = targetProject ?: return@Button
+                    val summary = title.trim().ifBlank { happeningNow.trim().lineSequence().firstOrNull().orEmpty().take(80) }
+                    onSaveCheckpoint(
+                        project.id, selectedMissionId, summary, completedSummary, happeningNow, nextAction,
+                        notes, blockers, referencesSummary, importantLinks, tags, isPinned, isQuickMode,
+                        attachedReferenceIds.joinToString(",")
+                    )
+                    onDismiss()
+                },
+                modifier = Modifier.fillMaxWidth().testTag("submit_save_point_button")
+            ) { Text("Save progress") }
             Spacer(modifier = Modifier.height(18.dp))
         }
     }

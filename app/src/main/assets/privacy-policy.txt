@@ -5,11 +5,13 @@ Effective date: 13 November 2026
 Android package: com.tiniflegar.fumipoka
 
 Local records and app operation
-Fumipoka keeps projects, Save Points, missions, references, Rescue history, focus sessions and preferences in Android app-private storage on this device. Optional timer-recovery snapshots preserve elapsed time and selected session details and reopen paused after interruption. References may contain file locations or links that you save. No account is required.
+Fumipoka keeps projects, Save Points, missions, references, Rescue history, focus sessions and preferences in Android app-private storage on this device. Optional timer-recovery snapshots preserve elapsed time and selected session details and reopen paused after interruption. References can contain links or files you save. No account is required.
 
 The Android app is free, contains no advertisements, purchases, subscriptions, AI features or external analytics, and does not require a server or app-controlled cloud synchronization. Its release manifest has no Internet permission. Core features work offline. Opening an external link hands it to your browser or another app under that app's privacy practices.
 
 Exports, sharing and document providers
+Fumipoka copies the supported files you choose to save from Android’s share sheet or document picker into private on-device storage. Opening an attachment grants the selected Android viewer temporary read access. JSON backup files include saved attachments when the export fits within the 16 MiB limit. These files are unencrypted.
+
 You choose whether to export or share records. Exports are unencrypted and readable by anyone with file access. Android's document picker lets you choose a destination, which may be a cloud-backed provider that stores or synchronizes files under its own terms. Clipboard and share tools transfer selected content outside private app storage. Imports read only the selected file and validate it before the confirmed restore/merge. Keep exports private and delete provider-held copies separately when no longer needed.
 
 Permissions and visible information

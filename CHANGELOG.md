@@ -1,3 +1,12 @@
+# Changelog
+
+## 2.1.0 (3)
+
+- Replaced the home dashboard with a notebook for active projects and the latest save point.
+- Added name-only projects and note-only save points. New blank projects have no generated missions, milestones or save points.
+- Consolidated widgets into Continue project, retaining legacy provider identities for existing instances.
+- The share sheet and file picker save supported attachments in private storage. Document backup includes these copies within the existing 16 MiB JSON limit.
+
 # Returnmark Changelog
 
 ## v3.1.0 — Lofi Whimsical Japanese & Kyoto Café Stationery Aesthetic

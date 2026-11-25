@@ -1,5 +1,7 @@
 # Fumipoka — provisional Kissaten edition
 
+[Current changes](CHANGELOG.md) · [Build and release](play-store/RELEASE_BUILD.md)
+
 **13 November release preparation:** [current readiness, checks and owner actions](play-launch/RELEASE_READINESS.md). [Public privacy policy](https://hydronudge-privacy.vercel.app/fumipoka/). Production remains blocked; the older verification figures below describe the earlier source checkpoint.
 
 Previously Returnmark. The existing offline Android application, updated in place. Application IDs, Room schema identities, existing preference/action identifiers and source signing configuration are retained.

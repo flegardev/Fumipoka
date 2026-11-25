@@ -1,6 +1,8 @@
 package com.example
 
 import android.content.Intent
+import android.net.Uri
+import androidx.core.content.IntentCompat
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -9,7 +11,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,17 +27,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkAdded
-import androidx.compose.material.icons.filled.BrightnessAuto
-import androidx.compose.material.icons.filled.Contrast
-import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.LocalLibrary
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Timer
-import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -53,16 +55,17 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.data.FocusModeType
-import com.example.data.ThemeAppearanceMode
 import com.example.ui.CommandPaletteDialog
 import com.example.ui.CustomizationAndVaultScreen
 import com.example.ui.DashboardScreen
@@ -70,6 +73,7 @@ import com.example.ui.FocusStudioScreen
 import com.example.ui.LibraryScreen
 import com.example.ui.MainViewModel
 import com.example.ui.MissionsScreen
+import com.example.ui.NotebookHome
 import com.example.ui.NativeWidgetsGalleryScreen
 import com.example.ui.PrimaryDestination
 import com.example.ui.ProjectsScreen
@@ -89,7 +93,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        inspectIncomingIntent(intent)
+        if (savedInstanceState == null) inspectIncomingIntent(intent)
 
         setContent {
             val prefs by viewModel.preferences.collectAsStateWithLifecycle()
@@ -111,9 +115,16 @@ class MainActivity : ComponentActivity() {
 
     private fun inspectIncomingIntent(intent: Intent?) {
         if (intent == null) return
+        if (intent.action == Intent.ACTION_SEND) {
+            val file = IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)
+                ?: intent.clipData?.takeIf { it.itemCount == 1 }?.getItemAt(0)?.uri
+            if (file != null) {
+                viewModel.offerAttachment(file)
+                return
+            }
+        }
         val sharedText = if (intent.action == Intent.ACTION_SEND) {
-            intent.getStringExtra(Intent.EXTRA_TEXT)
-                ?: intent.getParcelableExtra<android.net.Uri>(Intent.EXTRA_STREAM)?.toString()
+            intent.getCharSequenceExtra(Intent.EXTRA_TEXT)?.toString()
         } else null
         val widgetAction = intent.getStringExtra("widget_shortcut_action")
         if (!sharedText.isNullOrBlank() || !widgetAction.isNullOrBlank()) {
@@ -143,6 +154,22 @@ fun ReturnmarkAppRoot(viewModel: MainViewModel) {
     val showCommandPalette by viewModel.showCommandPalette.collectAsStateWithLifecycle()
     val showQuickCapture by viewModel.showQuickCaptureDialog.collectAsStateWithLifecycle()
     val sharedIncomingText by viewModel.sharedIncomingText.collectAsStateWithLifecycle()
+    val pendingAttachment by viewModel.pendingAttachment.collectAsStateWithLifecycle()
+    if (pendingAttachment != null) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = viewModel::dismissAttachment,
+            title = { Text("Save attachment?") },
+            text = { Text("Fumipoka will keep a copy in your Library.") },
+            confirmButton = {
+                androidx.compose.material3.TextButton(
+                    onClick = { viewModel.saveAttachment() }
+                ) { Text("Save") }
+            },
+            dismissButton = {
+                androidx.compose.material3.TextButton(onClick = viewModel::dismissAttachment) { Text("Cancel") }
+            }
+        )
+    }
     val bannerMessage by viewModel.statusBannerMessage.collectAsStateWithLifecycle()
 
     val exportedBackupJson by viewModel.exportedBackupJson.collectAsStateWithLifecycle()
@@ -154,6 +181,17 @@ fun ReturnmarkAppRoot(viewModel: MainViewModel) {
         BackHandler { viewModel.navigatePrimary(PrimaryDestination.HOME) }
     }
 
+    val primaryItems = listOf(PrimaryDestination.HOME, PrimaryDestination.PROJECTS, PrimaryDestination.LIBRARY)
+    var showTools by rememberSaveable { mutableStateOf(false) }
+    var showNewProject by rememberSaveable { mutableStateOf(false) }
+    var newProjectName by rememberSaveable { mutableStateOf("") }
+    val openProject: (Long) -> Unit = { id ->
+        viewModel.selectActiveProject(id)
+        viewModel.navigatePrimary(PrimaryDestination.PROJECTS)
+    }
+    val saveProgress: () -> Unit = {
+        if (projects.isEmpty()) showNewProject = true else viewModel.openSavePointSheet(quickMode = true)
+    }
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val isWideExpanded = maxWidth >= 700.dp
 
@@ -176,82 +214,42 @@ fun ReturnmarkAppRoot(viewModel: MainViewModel) {
                         }
                     },
                     title = {
-                        Column {
-                            Text(
-                                text = if (secondaryDest != SecondaryDestination.NONE) secondaryDest.label else "Fumipoka",
-                                style = MaterialTheme.typography.titleLarge,
-                                fontWeight = FontWeight.Bold,
-                                maxLines = 1,
-                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
-                            )
-                            Text(
-                                text = "Your project notebook.",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.primary,
-                                maxLines = 1,
-                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
-                            )
-                        }
+                        Text(if (secondaryDest == SecondaryDestination.NONE) "Fumipoka" else secondaryDest.label,
+                            style = MaterialTheme.typography.titleMedium,
+                            maxLines = 1,
+                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
                     },
                     actions = {
-                        // Instant 1-Tap Manual Light / Dark / OLED / System Appearance Switch
-                        Surface(
-                            color = MaterialTheme.colorScheme.primaryContainer,
-                            shape = RoundedCornerShape(14.dp),
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(14.dp))
-                                .clickable { viewModel.cycleAppearanceMode() }
-                                .testTag("top_bar_appearance_toggle")
-                        ) {
-                            Row(
-                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    imageVector = when (preferences.appearanceMode) {
-                                        ThemeAppearanceMode.LIGHT -> Icons.Default.LightMode
-                                        ThemeAppearanceMode.DARK -> Icons.Default.DarkMode
-                                        ThemeAppearanceMode.OLED -> Icons.Default.Contrast
-                                        ThemeAppearanceMode.SYSTEM -> Icons.Default.BrightnessAuto
-                                    },
-                                    contentDescription = "Switch Light/Dark/OLED/System Mode",
-                                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                    modifier = Modifier.size(16.dp)
-                                )
-                                if (androidx.compose.ui.platform.LocalDensity.current.fontScale < 1.3f) {
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text(
-                                    text = preferences.appearanceMode.shortBadge,
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                    fontWeight = FontWeight.Bold
-                                )
+                        IconButton(onClick = { viewModel.setShowCommandPalette(true) },
+                            modifier = Modifier.testTag("open_command_palette_button")) {
+                            Icon(Icons.Default.Search, contentDescription = "Search")
+                        }
+                        androidx.compose.foundation.layout.Box {
+                            IconButton(onClick = { showTools = true }, modifier = Modifier.testTag("open_tools_button")) {
+                                Icon(Icons.Default.MoreVert, contentDescription = "More options")
+                            }
+                            DropdownMenu(expanded = showTools, onDismissRequest = { showTools = false }) {
+                                listOf<Pair<String, () -> Unit>>(
+                                    "Save points" to { viewModel.navigatePrimary(PrimaryDestination.SAVE_POINTS) },
+                                    "Focus" to { viewModel.navigatePrimary(PrimaryDestination.FOCUS) },
+                                    "Missions" to { viewModel.navigateSecondary(SecondaryDestination.MISSIONS) },
+                                    "Templates" to { viewModel.navigateSecondary(SecondaryDestination.TEMPLATES) },
+                                    "Resume tools" to { viewModel.navigateSecondary(SecondaryDestination.RESCUE) },
+                                    "Activity and stats" to { viewModel.navigateSecondary(SecondaryDestination.STATISTICS) },
+                                    "Dashboard tools" to { viewModel.navigateSecondary(SecondaryDestination.DASHBOARD_TOOLS) },
+                                    "Widgets" to { viewModel.navigateSecondary(SecondaryDestination.WIDGETS) },
+                                    "Settings" to { viewModel.navigateSecondary(SecondaryDestination.SETTINGS) }
+                                ).forEach { (label, open) ->
+                                    DropdownMenuItem(text = { Text(label) }, onClick = { showTools = false; open() })
                                 }
                             }
-                        }
-
-                        IconButton(
-                            onClick = { viewModel.setShowCommandPalette(true) },
-                            modifier = Modifier
-                                .size(48.dp)
-                                .testTag("open_command_palette_button")
-                        ) {
-                            Icon(Icons.Default.Search, contentDescription = "Search & Command Palette")
-                        }
-                        IconButton(
-                            onClick = { viewModel.navigateSecondary(SecondaryDestination.SETTINGS) },
-                            modifier = Modifier
-                                .size(48.dp)
-                                .testTag("open_settings_vault_button")
-                        ) {
-                            Icon(Icons.Default.Tune, contentDescription = "Customization & Backup Vault")
                         }
                     }
                 )
             },
             floatingActionButton = {
-                ExtendedFloatingActionButton(
-                    onClick = { viewModel.openSavePointSheet(quickMode = false) },
+                if (secondaryDest == SecondaryDestination.NONE && primaryDest == PrimaryDestination.PROJECTS && projects.isNotEmpty()) ExtendedFloatingActionButton(
+                    onClick = saveProgress,
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     shape = RoundedCornerShape(20.dp),
@@ -267,7 +265,7 @@ fun ReturnmarkAppRoot(viewModel: MainViewModel) {
                         containerColor = MaterialTheme.colorScheme.surface,
                         tonalElevation = 0.dp
                     ) {
-                        PrimaryDestination.entries.forEach { dest ->
+                        primaryItems.forEach { dest ->
                             val selected = secondaryDest == SecondaryDestination.NONE && primaryDest == dest
                             NavigationBarItem(
                                 selected = selected,
@@ -290,7 +288,7 @@ fun ReturnmarkAppRoot(viewModel: MainViewModel) {
                     NavigationRail(
                         containerColor = MaterialTheme.colorScheme.surface
                     ) {
-                        PrimaryDestination.entries.forEach { dest ->
+                        primaryItems.forEach { dest ->
                             val selected = secondaryDest == SecondaryDestination.NONE && primaryDest == dest
                             NavigationRailItem(
                                 selected = selected,
@@ -413,12 +411,7 @@ fun ReturnmarkAppRoot(viewModel: MainViewModel) {
                             }
 
                             "SEC_WIDGETS" -> {
-                                NativeWidgetsGalleryScreen(
-                                    projects = projects,
-                                    savePoints = savePoints,
-                                    missions = missions,
-                                    onTriggerQuickAction = { viewModel.openSavePointSheet(true) }
-                                )
+                                NativeWidgetsGalleryScreen()
                             }
 
                             "SEC_SETTINGS" -> {
@@ -533,12 +526,13 @@ fun ReturnmarkAppRoot(viewModel: MainViewModel) {
                                             hasPersistableUriAccess = persistable
                                         )
                                     },
+                                    onPickAttachment = viewModel::offerAttachment,
                                     onToggleFavorite = viewModel::toggleReferenceFavorite,
                                     onDeleteReference = viewModel::deleteReference
                                 )
                             }
 
-                            else -> {
+                            "SEC_DASHBOARD_TOOLS" -> {
                                 DashboardScreen(
                                     projects = projects,
                                     savePoints = savePoints,
@@ -561,11 +555,37 @@ fun ReturnmarkAppRoot(viewModel: MainViewModel) {
                                     onRemoveSampleWorkspace = viewModel::removeSampleProjects
                                 )
                             }
+                            else -> NotebookHome(
+                                projects = projects,
+                                savePoints = savePoints,
+                                onNewProject = { showNewProject = true },
+                                onOpenProject = openProject,
+                                onSaveProgress = saveProgress
+                            )
                         }
                     }
                 }
             }
         }
+    }
+
+    if (showNewProject) {
+        AlertDialog(
+            onDismissRequest = { showNewProject = false },
+            title = { Text("New project") },
+            text = {
+                OutlinedTextField(value = newProjectName, onValueChange = { newProjectName = it },
+                    label = { Text("Name") }, singleLine = true, modifier = Modifier.fillMaxWidth())
+            },
+            confirmButton = {
+                Button(enabled = newProjectName.isNotBlank(), onClick = {
+                    viewModel.createProject(newProjectName)
+                    newProjectName = ""
+                    showNewProject = false
+                }) { Text("Create project") }
+            },
+            dismissButton = { TextButton(onClick = { newProjectName = ""; showNewProject = false }) { Text("Cancel") } }
+        )
     }
 
     if (showSavePointSheet) {

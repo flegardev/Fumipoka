@@ -15,6 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.attachments"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/local_attachment_paths" />
+        </provider>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -45,7 +55,7 @@
             </intent-filter>
         </activity>
 
-        <!-- 10 Native Android Home-Screen Widgets -->
+        <!-- Retain legacy providers for existing home screens. -->
         <receiver
             android:name=".widget.ContinueProjectWidgetReceiver"
             android:exported="true"
@@ -67,7 +77,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/returnmark_widget_info" />
+                android:resource="@xml/returnmark_legacy_widget_info" />
         </receiver>
 
         <receiver
@@ -79,7 +89,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/returnmark_widget_info" />
+                android:resource="@xml/returnmark_legacy_widget_info" />
         </receiver>
 
         <receiver
@@ -91,7 +101,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/returnmark_widget_info" />
+                android:resource="@xml/returnmark_legacy_widget_info" />
         </receiver>
 
         <receiver
@@ -103,7 +113,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/returnmark_widget_info" />
+                android:resource="@xml/returnmark_legacy_widget_info" />
         </receiver>
 
         <receiver
@@ -115,7 +125,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/returnmark_widget_info" />
+                android:resource="@xml/returnmark_legacy_widget_info" />
         </receiver>
 
         <receiver
@@ -127,7 +137,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/returnmark_widget_info" />
+                android:resource="@xml/returnmark_legacy_widget_info" />
         </receiver>
 
         <receiver
@@ -139,7 +149,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/returnmark_widget_info" />
+                android:resource="@xml/returnmark_legacy_widget_info" />
         </receiver>
 
         <receiver
@@ -151,7 +161,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/returnmark_widget_info" />
+                android:resource="@xml/returnmark_legacy_widget_info" />
         </receiver>
 
         <receiver
@@ -163,7 +173,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/returnmark_widget_info" />
+                android:resource="@xml/returnmark_legacy_widget_info" />
         </receiver>
 
     </application>

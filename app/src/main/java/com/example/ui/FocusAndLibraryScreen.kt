@@ -474,6 +474,7 @@ fun LibraryScreen(
     references: List<ReferenceItemEntity>,
     incomingSharedText: String?,
     onConsumeSharedText: () -> Unit,
+    onPickAttachment: (android.net.Uri) -> Unit,
     onAddReference: (
         projectId: Long?,
         title: String,
@@ -514,24 +515,7 @@ fun LibraryScreen(
     val documentPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument()
     ) { uri ->
-        if (uri != null) {
-            var persisted = false
-            try {
-                context.contentResolver.takePersistableUriPermission(
-                    uri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION
-                )
-                persisted = true
-            } catch (_: Throwable) {
-            }
-            draftContent = uri.toString()
-            if (draftTitle.isBlank()) {
-                draftTitle = uri.lastPathSegment ?: "Attached Document"
-            }
-            draftType = ReferenceType.DOCUMENT
-            draftHasPersistableUri = persisted
-            showAddDialog = true
-        }
+        if (uri != null) onPickAttachment(uri)
     }
 
     val filtered = references.filter { ref ->
@@ -567,7 +551,7 @@ fun LibraryScreen(
                     )
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    OutlinedButton(onClick = { documentPickerLauncher.launch(arrayOf("*/*")) }) {
+                    OutlinedButton(onClick = { documentPickerLauncher.launch(arrayOf("image/jpeg", "image/png", "image/gif", "image/webp", "application/pdf", "text/plain")) }) {
                         Icon(Icons.Default.AttachFile, contentDescription = null, modifier = Modifier.size(16.dp))
                         Spacer(modifier = Modifier.width(4.dp))
                         Text("Pick File")
@@ -654,7 +638,24 @@ fun LibraryScreen(
                     }
 
                     Text(item.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    if (item.contentOrUri.isNotBlank()) {
+                    val local = com.example.data.LocalAttachments.isLocal(item.contentOrUri)
+                    if (local) {
+                        TextButton(onClick = {
+                            val message = try {
+                                val uri = com.example.data.LocalAttachments.openUri(context, item.contentOrUri)
+                                if (uri == null) "This attachment is missing from the device."
+                                else {
+                                    context.startActivity(Intent(Intent.ACTION_VIEW, uri).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION))
+                                    null
+                                }
+                            } catch (_: android.content.ActivityNotFoundException) {
+                                "No installed app can open this file."
+                            } catch (_: SecurityException) {
+                                "This attachment could not be opened."
+                            }
+                            if (message != null) android.widget.Toast.makeText(context, message, android.widget.Toast.LENGTH_SHORT).show()
+                        }) { Text("Open attachment") }
+                    } else if (item.contentOrUri.isNotBlank()) {
                         Surface(
                             shape = RoundedCornerShape(10.dp),
                             color = MaterialTheme.colorScheme.surfaceVariant,
@@ -670,7 +671,7 @@ fun LibraryScreen(
                     if (item.description.isNotBlank()) {
                         Text(item.description, style = MaterialTheme.typography.bodySmall)
                     }
-                    if (item.type == ReferenceType.DOCUMENT.name || item.type == ReferenceType.FILE_REF.name) {
+                    if (!local && (item.type == ReferenceType.DOCUMENT.name || item.type == ReferenceType.FILE_REF.name)) {
                         Text(
                             text = if (item.hasPersistableUriAccess) "URI Access: Persistable read grant retained"
                             else "URI Reference: External file pointer (re-pick via SAF if moved)",

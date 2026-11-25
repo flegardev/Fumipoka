@@ -378,12 +378,8 @@ class ExampleRobolectricTest {
             activeContext = "Line 142 PacketAssembler.kt",
             lastSavePointTitle = "BLE 180B Cap",
             nextManualStep = "Run 64KB payload test",
-            currentMissionTitle = "Wire retry loop",
-            nextMissionTitle = "Benchmark 1000 nodes",
             activeProjectsCount = 3,
-            completedMissionsCount = 4,
-            totalMissionsCount = 6,
-            totalFocusMinutes = 190
+            appearance = "OLED"
         )
         ReturnmarkWidgetUpdater.pushSnapshotAndRefreshAll(context, snapshot)
         val readBack = ReturnmarkWidgetUpdater.readSnapshot(context)
@@ -391,6 +387,7 @@ class ExampleRobolectricTest {
         assertEquals("Line 142 PacketAssembler.kt", readBack.activeContext)
         assertEquals("Run 64KB payload test", readBack.nextManualStep)
         assertEquals(3, readBack.activeProjectsCount)
+        assertEquals("OLED", readBack.appearance)
     }
 
     @Test

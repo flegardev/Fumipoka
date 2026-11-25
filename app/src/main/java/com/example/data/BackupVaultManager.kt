@@ -37,7 +37,8 @@ data class ParsedBackupPayload(
     val references: List<ReferenceItemEntity>,
     val focusSessions: List<FocusSessionEntity>,
     val rescueSessions: List<RescueSessionEntity>,
-    val preferences: UserPreferencesState?
+    val preferences: UserPreferencesState?,
+    val attachments: Map<String, ByteArray> = emptyMap()
 )
 
 object BackupVaultManager {
@@ -50,7 +51,8 @@ object BackupVaultManager {
         references: List<ReferenceItemEntity>,
         focusSessions: List<FocusSessionEntity>,
         rescueSessions: List<RescueSessionEntity>,
-        preferences: UserPreferencesState
+        preferences: UserPreferencesState,
+        attachments: Map<String, ByteArray> = emptyMap()
     ): String {
         val root = JSONObject()
         root.put("app", "Returnmark")
@@ -165,6 +167,13 @@ object BackupVaultManager {
             )
         }
         root.put("references", refsArray)
+        if (attachments.isNotEmpty()) {
+            root.put("attachments", JSONObject().apply {
+                attachments.forEach { (token, bytes) ->
+                    put(token, android.util.Base64.encodeToString(bytes, android.util.Base64.NO_WRAP))
+                }
+            })
+        }
 
         val focusArray = JSONArray()
         focusSessions.forEach { f ->
@@ -450,6 +459,21 @@ object BackupVaultManager {
                 )
             }
 
+            val attachmentJson = root.optJSONObject("attachments")
+            val attachmentTokens = references.map { it.contentOrUri }.filter(LocalAttachments::isLocal).toSet()
+            val attachments = attachmentTokens.associateWith { token ->
+                val mime = requireNotNull(LocalAttachments.mimeType(token)) { "Invalid attachment identifier." }
+                val encoded = requireNotNull(attachmentJson?.optString(token)?.takeIf { it.isNotBlank() }) {
+                    "An attachment is missing from the backup."
+                }
+                val bytes = android.util.Base64.decode(encoded, android.util.Base64.DEFAULT)
+                require(bytes.isNotEmpty() && bytes.size <= LocalAttachments.MAX_BYTES &&
+                    LocalAttachments.matchesMime(mime, bytes.copyOfRange(0, minOf(bytes.size, 12)))) {
+                    "Invalid attachment contents."
+                }
+                bytes
+            }
+
             val focusSessions = mutableListOf<FocusSessionEntity>()
             val focusArr = root.optJSONArray("focusSessions") ?: JSONArray()
             for (i in 0 until focusArr.length()) {
@@ -515,7 +539,7 @@ object BackupVaultManager {
                     reducedMotion = p.optBoolean("reducedMotion", false),
                     showStatistics = p.optBoolean("showStatistics", true),
                     autoPromptSavePointAfterFocus = p.optBoolean("autoPromptSavePointAfterFocus", true),
-                    focusNotificationsEnabled = p.optBoolean("focusNotificationsEnabled", true),
+                    focusNotificationsEnabled = p.optBoolean("focusNotificationsEnabled", false),
                     persistentContextNotification = p.optBoolean("persistentContextNotification", false),
                     startDestination = p.optString("startDestination", "HOME"),
                     selectedProjectId = p.optLong("selectedProjectId", projects.firstOrNull()?.id ?: 1L),
@@ -551,7 +575,8 @@ object BackupVaultManager {
                     references = references,
                     focusSessions = focusSessions,
                     rescueSessions = rescueSessions,
-                    preferences = parsedPrefs
+                    preferences = parsedPrefs,
+                    attachments = attachments
                 )
             )
         } catch (e: Exception) {

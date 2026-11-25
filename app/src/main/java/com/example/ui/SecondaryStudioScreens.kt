@@ -798,67 +798,22 @@ private fun StatSummaryTile(label: String, value: String, modifier: Modifier = M
 }
 
 @Composable
-fun NativeWidgetsGalleryScreen(
-    projects: List<ProjectEntity>,
-    savePoints: List<SavePointEntity>,
-    missions: List<MissionEntity>,
-    onTriggerQuickAction: (String) -> Unit
-) {
-    val activeProj = projects.firstOrNull()
-    val latestSp = savePoints.firstOrNull()
-    val nextMission = missions.firstOrNull { it.status != MissionStatus.DONE.name }
-
-    val nativeWidgets = listOf(
-        Triple("1. Continue Project Widget", activeProj?.name ?: "Workspace", "Resume + Quick Save dual action"),
-        Triple("2. Current Mission Widget", nextMission?.title ?: "Mission", "Status: ${nextMission?.status ?: "ACTIVE"} + Launch Focus"),
-        Triple("3. Quick Save Point Widget", "1-Tap Save Progress", "Latest: ${latestSp?.title ?: "Ready"}"),
-        Triple("4. Active Projects Widget", "${projects.count { it.status == ProjectStatus.ACTIVE.name }} Active Workspaces", "Switch project or launch Rescue Mode"),
-        Triple("5. Focus Timer Widget", "Pomodoro & Deep Work", "Launch offline Focus Studio + Save Point"),
-        Triple("6. Project Progress Widget", "Mission & Milestone Bar", "${missions.count { it.status == MissionStatus.DONE.name }}/${missions.size} completed"),
-        Triple("7. Next Mission Widget", nextMission?.title ?: "Queue Clear", "Priority: ${nextMission?.priority ?: "MEDIUM"}"),
-        Triple("8. Pinned Project Widget", projects.firstOrNull { it.isPinned }?.name ?: "Pinned Workspace", "Instant launcher shortcut"),
-        Triple("9. Recent Checkpoints Widget", latestSp?.title ?: "Timeline", "Next: ${latestSp?.nextAction ?: "Capture checkpoint"}"),
-        Triple("10. Quick Capture Widget", "+ Idea / Mission / Link", "Zero-friction home screen intake")
-    )
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .testTag("native_widgets_screen"),
-        contentPadding = PaddingValues(16.dp),
+fun NativeWidgetsGalleryScreen() {
+    val context = LocalContext.current
+    var showPickerInstructions by remember { mutableStateOf(false) }
+    Column(
+        modifier = Modifier.fillMaxSize().padding(24.dp).testTag("native_widgets_screen"),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        item {
-            Text("10 Native Android Home-Screen Widgets", style = MaterialTheme.typography.headlineMedium)
-            Text(
-                "All 10 AppWidgetProviders are registered in AndroidManifest.xml with dual PendingIntent actions and automatically refresh when local Room data changes.",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-
-        items(nativeWidgets, key = { it.first }) { (title, headline, sub) ->
-            Card(
-                shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(20.dp))
-            ) {
-                Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(title.uppercase(), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary)
-                        Icon(Icons.Default.Widgets, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
-                    }
-                    Text(headline, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Text(sub, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
+        Text("Continue project", style = MaterialTheme.typography.headlineSmall)
+        Text("Return to your latest project or save another note from the home screen.")
+        Button(onClick = {
+            val manager = android.appwidget.AppWidgetManager.getInstance(context)
+            val component = android.content.ComponentName(context, com.example.widget.ContinueProjectWidgetReceiver::class.java)
+            showPickerInstructions = android.os.Build.VERSION.SDK_INT < 26 ||
+                !manager.isRequestPinAppWidgetSupported || !manager.requestPinAppWidget(component, null, null)
+        }) { Text("Add widget") }
+        if (showPickerInstructions) Text("Long-press the Android home screen and select Widgets.")
     }
 }
 

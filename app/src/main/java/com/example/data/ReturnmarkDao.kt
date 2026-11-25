@@ -81,6 +81,9 @@ interface ReturnmarkDao {
     @Query("SELECT * FROM reference_items ORDER BY createdAt DESC")
     suspend fun getAllReferencesSnapshot(): List<ReferenceItemEntity>
 
+    @Query("SELECT * FROM reference_items WHERE id = :id")
+    suspend fun getReference(id: Long): ReferenceItemEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertReference(reference: ReferenceItemEntity): Long
 
