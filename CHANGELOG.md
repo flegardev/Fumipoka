@@ -4,6 +4,7 @@
 
 - Replaced the home dashboard with a notebook for active projects and the latest save point.
 - Added name-only projects and note-only save points. New blank projects have no generated missions, milestones or save points.
+- Saved searches start empty. Existing saved searches are preserved.
 - Consolidated widgets into Continue project, retaining legacy provider identities for existing instances.
 - The share sheet and file picker save supported attachments in private storage. Document backup includes these copies within the existing 16 MiB JSON limit.
 

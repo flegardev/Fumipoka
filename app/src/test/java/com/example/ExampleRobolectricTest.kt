@@ -59,6 +59,16 @@ class ExampleRobolectricTest {
     }
 
     @Test
+    fun `saved searches start empty and retain explicitly saved searches`() = runBlocking {
+        assertTrue(UserPreferencesState().savedSearchesCsv.isEmpty())
+        assertTrue(PreferencesRepository(context).getSnapshot().savedSearchesCsv.isEmpty())
+
+        PreferencesRepository(context).addSavedSearch("ceramics")
+
+        assertEquals("ceramics", PreferencesRepository(context).getSnapshot().savedSearchesCsv)
+    }
+
+    @Test
     fun `manifest disables automatic backup and requests zero internet permission`() {
         assertEquals("Fumipoka", context.getString(R.string.app_name))
         val appInfo = context.applicationInfo

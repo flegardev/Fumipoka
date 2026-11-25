@@ -81,7 +81,7 @@ data class UserPreferencesState(
     val activeLayoutPresetName: String = "Command Center (All 20)",
     val widgetConfigsRaw: String = "",
     val savedLayoutPresetsRaw: String = "",
-    val savedSearchesCsv: String = "ble,protocol,chapter-4,urgent",
+    val savedSearchesCsv: String = "",
     val customTemplatesRaw: String = ""
 ) {
     fun parsedWidgetConfigs(): List<DashboardWidgetConfig> {
@@ -176,7 +176,7 @@ class PreferencesRepository(private val context: Context) {
             activeLayoutPresetName = prefs[Keys.ACTIVE_PRESET_NAME] ?: "Command Center (All 20)",
             widgetConfigsRaw = prefs[Keys.WIDGET_CONFIGS] ?: "",
             savedLayoutPresetsRaw = prefs[Keys.SAVED_PRESETS] ?: "",
-            savedSearchesCsv = prefs[Keys.SAVED_SEARCHES] ?: "ble,protocol,chapter-4,urgent",
+            savedSearchesCsv = prefs[Keys.SAVED_SEARCHES].orEmpty(),
             customTemplatesRaw = prefs[Keys.CUSTOM_TEMPLATES] ?: ""
         )
     }
