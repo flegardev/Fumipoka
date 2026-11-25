@@ -652,6 +652,8 @@ fun LibraryScreen(
                                 "No installed app can open this file."
                             } catch (_: SecurityException) {
                                 "This attachment could not be opened."
+                            } catch (_: IllegalArgumentException) {
+                                "This attachment could not be opened."
                             }
                             if (message != null) android.widget.Toast.makeText(context, message, android.widget.Toast.LENGTH_SHORT).show()
                         }) { Text("Open attachment") }

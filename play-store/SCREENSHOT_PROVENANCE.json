@@ -1,5 +1,44 @@
 [
   {
+    "file": "play-store/screenshots/release-2.1.0/phone/01-home.png",
+    "source": "Disposable Android 17 (API 37) emulator. Fictional data entered through app UI.",
+    "sourceCapturedAt": "2026-11-25T13:46:44.041268+00:00",
+    "sourceSha256": "46bfe0b4dd384faa7d6df848a5bc84f6851f0f0aa1571ee06d2343f993827da7",
+    "sha256": "46bfe0b4dd384faa7d6df848a5bc84f6851f0f0aa1571ee06d2343f993827da7",
+    "size": [
+      1080,
+      2160
+    ],
+    "mode": "RGBA",
+    "release": "2.1.0"
+  },
+  {
+    "file": "play-store/screenshots/release-2.1.0/phone/02-projects.png",
+    "source": "Disposable Android 17 (API 37) emulator. Fictional data entered through app UI.",
+    "sourceCapturedAt": "2026-11-25T13:46:49.305057+00:00",
+    "sourceSha256": "c96370654ef3dbbc944b749a63c1b9a97c04885060659420c1a9a748da445623",
+    "sha256": "c96370654ef3dbbc944b749a63c1b9a97c04885060659420c1a9a748da445623",
+    "size": [
+      1080,
+      2160
+    ],
+    "mode": "RGBA",
+    "release": "2.1.0"
+  },
+  {
+    "file": "play-store/screenshots/release-2.1.0/phone/03-library.png",
+    "source": "Disposable Android 17 (API 37) emulator. Fictional data entered through app UI.",
+    "sourceCapturedAt": "2026-11-25T13:46:52.313919+00:00",
+    "sourceSha256": "89e0f0d7ab30ec7b630d4c612f2c44aab2dd549f4bf91132bb1b5efa069291d5",
+    "sha256": "89e0f0d7ab30ec7b630d4c612f2c44aab2dd549f4bf91132bb1b5efa069291d5",
+    "size": [
+      1080,
+      2160
+    ],
+    "mode": "RGBA",
+    "release": "2.1.0"
+  },
+  {
     "file": "play-store/screenshots/phone/01-light-home.png",
     "source": "kissaten/evidence/returnmark/screenshots/matrix-standard/light-home.png",
     "sourceCapturedAt": "2026-11-11T20:57:58.958519+01:00",

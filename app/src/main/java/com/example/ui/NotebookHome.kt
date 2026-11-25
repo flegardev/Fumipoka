@@ -34,7 +34,7 @@ fun NotebookHome(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                Text("Pick up where you left off", style = MaterialTheme.typography.displaySmall)
+                Text("Continue your work", style = MaterialTheme.typography.displaySmall)
             }
             if (active.isEmpty()) {
                 item {

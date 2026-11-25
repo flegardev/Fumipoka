@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -22,6 +23,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -53,6 +56,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -72,6 +76,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.example.data.BackupVaultManager
 import com.example.data.FocusSessionEntity
@@ -1008,7 +1013,24 @@ fun SavePointBottomSheet(
     var tags by rememberSaveable { mutableStateOf("") }
     var isPinned by rememberSaveable { mutableStateOf(false) }
 
-    ModalBottomSheet(onDismissRequest = onDismiss) {
+    val canSave = targetProject != null && listOf(happeningNow, title, nextAction, notes, completedSummary)
+        .any { it.isNotBlank() }
+    fun submitSavePoint() {
+        val project = targetProject ?: return
+        if (!canSave) return
+        val summary = title.trim().ifBlank { happeningNow.trim().lineSequence().firstOrNull().orEmpty().take(80) }
+        onSaveCheckpoint(
+            project.id, selectedMissionId, summary, completedSummary, happeningNow, nextAction,
+            notes, blockers, referencesSummary, importantLinks, tags, isPinned, isQuickMode,
+            attachedReferenceIds.joinToString(",")
+        )
+        onDismiss()
+    }
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        modifier = Modifier.imePadding(),
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -1038,6 +1060,8 @@ fun SavePointBottomSheet(
                 value = happeningNow,
                 onValueChange = { happeningNow = it },
                 label = { Text("Where did you stop?") },
+                keyboardOptions = KeyboardOptions(imeAction = if (isQuickMode) ImeAction.Done else ImeAction.Default),
+                keyboardActions = KeyboardActions(onDone = { if (isQuickMode) submitSavePoint() }),
                 modifier = Modifier.fillMaxWidth().testTag("save_point_context_input")
             )
 
@@ -1148,18 +1172,8 @@ fun SavePointBottomSheet(
                 }
             }
             Button(
-                enabled = targetProject != null && listOf(happeningNow, title, nextAction, notes, completedSummary)
-                    .any { it.isNotBlank() },
-                onClick = {
-                    val project = targetProject ?: return@Button
-                    val summary = title.trim().ifBlank { happeningNow.trim().lineSequence().firstOrNull().orEmpty().take(80) }
-                    onSaveCheckpoint(
-                        project.id, selectedMissionId, summary, completedSummary, happeningNow, nextAction,
-                        notes, blockers, referencesSummary, importantLinks, tags, isPinned, isQuickMode,
-                        attachedReferenceIds.joinToString(",")
-                    )
-                    onDismiss()
-                },
+                enabled = canSave,
+                onClick = ::submitSavePoint,
                 modifier = Modifier.fillMaxWidth().testTag("submit_save_point_button")
             ) { Text("Save progress") }
             Spacer(modifier = Modifier.height(18.dp))

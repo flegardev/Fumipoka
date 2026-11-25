@@ -47,9 +47,11 @@ class LocalAttachmentsTest {
         try {
             assertNotEquals(token, restored)
             assertArrayEquals(bytes, LocalAttachments.readForBackup(context, restored))
-            val uri = checkNotNull(LocalAttachments.openUri(context, restored))
-            assertEquals("content", uri.scheme)
-            assertEquals("${context.packageName}.attachments", uri.authority)
+            val provider = checkNotNull(context.packageManager.resolveContentProvider(
+                "${context.packageName}.attachments", android.content.pm.PackageManager.GET_META_DATA
+            ))
+            assertFalse(provider.exported)
+            assertTrue(provider.grantUriPermissions)
             assertNull(LocalAttachments.openUri(context, "fumipoka-attachment:../../secret.pdf"))
         } finally {
             LocalAttachments.delete(context, restored)
